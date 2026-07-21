@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Poppins", sans-serif;
+  --color-ink: #111111;
+  --color-muted: #555555;
+  --color-canvas: #f8f8f8;
+  --color-brand-pink: #ff006e;
+  --color-brand-red: #ff4d4d;
+  --color-brand-orange: #ff8a00;
+  --color-brand-gold: #ffc107;
+}
+
+@layer base {
+  html { scroll-behavior: auto; }
+  body { @apply bg-canvas font-body text-ink antialiased; }
+  ::selection { background: #ff8a00; color: white; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer components {
+  .glass-panel { @apply border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(17,17,17,0.07)] backdrop-blur-xl; }
+  .text-gradient { background: linear-gradient(110deg, #ff006e, #ff4d4d, #ff8a00, #ffc107); background-clip: text; -webkit-background-clip: text; color: transparent; }
+}

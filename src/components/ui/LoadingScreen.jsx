@@ -1,0 +1,1 @@
+export function LoadingScreen() { return <div aria-live="polite" className="grid min-h-screen place-items-center bg-canvas"><span className="font-display text-lg font-bold tracking-[-0.06em] text-ink">SHRII<span className="text-gradient">.</span></span></div> }

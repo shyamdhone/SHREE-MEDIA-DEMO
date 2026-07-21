@@ -1,0 +1,1 @@
+export function Card({ className = '', children, ...props }) { return <article className={`rounded-3xl border border-black/[0.06] bg-white p-6 shadow-[0_16px_45px_rgba(17,17,17,0.05)] ${className}`} {...props}>{children}</article> }

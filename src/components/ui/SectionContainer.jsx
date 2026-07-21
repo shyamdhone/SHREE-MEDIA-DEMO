@@ -1,0 +1,1 @@
+export function SectionContainer({ as: Tag = 'section', className = '', children, ...props }) { return <Tag className={`px-4 py-20 sm:px-6 md:py-28 ${className}`} {...props}><div className="mx-auto max-w-7xl">{children}</div></Tag> }
