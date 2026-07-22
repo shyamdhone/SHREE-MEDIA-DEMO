@@ -4,23 +4,83 @@ import { FiArrowUpRight, FiBarChart2, FiCode, FiEdit3, FiLayers, FiPlayCircle, F
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import shree from "../../assets/images/shreeji jewelry.jpg";
+import shiv from "../../assets/images/shivenetra (2).jpg";
+import balaji from "../../assets/images/balaji traders.jpg";
+import vighnaharta from "../../assets/images/vighnaharta.jpg"; // if this is the correct image
+import socialMediaImg from "../../assets/images/social.jpg";
+import contentImg from "../../assets/images/content.jpg";
+import reelImg from "../../assets/images/editing.jpg";
+import adsImg from "../../assets/images/ad.jpg";
+import brandingImg from "../../assets/images/brand.jpg";
+import websiteImg from "../../assets/images/web.jpg";
 
 gsap.registerPlugin(ScrollTrigger)
 
 const services = [
-  ['Social Media Management', 'A clear, consistent presence that turns attention into community.', FiLayers],
-  ['Content Creation', 'Campaign-ready content with a point of view and a pulse.', FiEdit3],
-  ['Reel Editing', 'Short-form stories designed to stop the scroll.', FiPlayCircle],
-  ['Paid Advertising', 'Performance creative engineered for meaningful momentum.', FiTarget],
-  ['Brand Identity', 'Distinctive systems that make your business instantly recognisable.', FiBarChart2],
-  ['Website Development', 'Elegant digital experiences built to make every click count.', FiCode],
-]
+  {
+    title: "Social Media Management",
+    description: "A clear, consistent presence that turns attention into community.",
+    icon: FiLayers,
+    image: socialMediaImg,
+  },
+  {
+    title: "Content Creation",
+    description: "Campaign-ready content with a point of view and a pulse.",
+    icon: FiEdit3,
+    image: contentImg,
+  },
+  {
+    title: "Reel Editing",
+    description: "Short-form stories designed to stop the scroll.",
+    icon: FiPlayCircle,
+    image: reelImg,
+  },
+  {
+    title: "Paid Advertising",
+    description: "Performance creative engineered for meaningful momentum.",
+    icon: FiTarget,
+    image: adsImg,
+  },
+  {
+    title: "Brand Identity",
+    description: "Distinctive systems that make your business instantly recognisable.",
+    icon: FiBarChart2,
+    image: brandingImg,
+  },
+  {
+    title: "Website Development",
+    description: "Elegant digital experiences built to make every click count.",
+    icon: FiCode,
+    image: websiteImg,
+  },
+];
 
 const work = [
-  ['Luma Atelier', 'Beauty & Wellness', 'from-brand-pink via-brand-red to-brand-orange', 'A / 01'],
-  ['Cinder House', 'Hospitality', 'from-brand-gold via-brand-orange to-brand-red', 'C / 02'],
-  ['Forma Studio', 'Architecture', 'from-brand-orange via-brand-red to-brand-pink', 'F / 03'],
-  ['Nōa Skin', 'Beauty & Wellness', 'from-brand-pink via-brand-orange to-brand-gold', 'N / 04'],
+  {
+    name: "Shreeji Jewellers",
+    industry: "Jewellery",
+    image: shree,
+    code: "A / 01",
+  },
+  {
+    name: "Vighnaharta Stationary",
+    industry: "Stationery",
+    image: vighnaharta,
+    code: "B / 02",
+  },
+  {
+    name: "Balaji Traders",
+    industry: "Trading",
+    image: balaji,
+    code: "C / 03",
+  },
+  {
+    name: "Shivnetra Optical",
+    industry: "Optical",
+    image: shiv,
+    code: "D / 04",
+  },
 ]
 
 const metrics = [['50+', 'Happy clients'], ['250+', 'Projects'], ['30M+', 'Views generated'], ['10M+', 'Accounts reached'], ['98%', 'Client satisfaction']]
@@ -46,11 +106,161 @@ export function ServicesSection() {
     return () => handlers.forEach(([card, move, leave]) => { card.removeEventListener('pointermove', move); card.removeEventListener('pointerleave', leave) })
   }, { scope })
   
-  return <section className="bg-[#fafafa] px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><Eyebrow>What we do</Eyebrow><Heading>Designed to make<br />your brand matter.</Heading></div><p className="max-w-xs text-sm leading-7 text-muted">A focused creative partnership for brands ready to grow with intention.</p></div><div className="mt-14 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{services.map(([title, description, Icon], index) => <article key={title} className="group relative min-h-64 overflow-hidden rounded-[1.75rem] border border-black/[0.06] bg-white p-6 shadow-[0_15px_50px_rgba(0,0,0,0.05)] transition duration-500 hover:-translate-y-2 hover:shadow-[0_22px_55px_rgba(255,0,110,0.13)]"><div className="absolute -right-10 -top-10 size-28 rounded-full bg-gradient-to-br from-brand-pink/0 via-brand-red/0 to-brand-orange/0 blur-2xl transition duration-500 group-hover:from-brand-pink/20 group-hover:via-brand-red/15 group-hover:to-brand-orange/20" /><div className="relative flex h-full flex-col"><div className="flex items-start justify-between"><span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-brand-pink/10 via-brand-red/10 to-brand-orange/15 text-brand-pink"><Icon /></span><span className="font-display text-sm text-black/25">0{index + 1}</span></div><div className="mt-auto"><h3 className="font-display text-2xl font-medium tracking-[-0.06em] text-ink">{title}</h3><p className="mt-3 max-w-xs text-sm leading-6 text-muted">{description}</p></div></div></article>)}</div></div></section>
-}
+return (
+  <section className="bg-[#fafafa] px-4 py-24 sm:px-6 sm:py-32">
+    <div className="mx-auto max-w-[1440px]">
+
+      {/* Header */}
+      <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
+        <div>
+          <Eyebrow>What we do</Eyebrow>
+          <Heading>
+            Designed to make
+            <br />
+            your brand matter.
+          </Heading>
+        </div>
+
+        <p className="max-w-xs text-sm leading-7 text-muted">
+          A focused creative partnership for brands ready to grow with
+          intention.
+        </p>
+      </div>
+
+      {/* Services */}
+      <div className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+
+        {services.map((service, index) => {
+          const Icon = service.icon;
+
+          return (
+            <article
+              key={service.title}
+              className="group relative min-h-[420px] overflow-hidden rounded-[2rem] cursor-pointer"
+            >
+              {/* Background Image */}
+              <img
+                src={service.image}
+                alt={service.title}
+                className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+              />
+
+              {/* Dark Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/20" />
+
+              {/* Service Number */}
+              <span className="absolute right-6 top-6 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white backdrop-blur-md">
+                0{index + 1}
+              </span>
+
+              {/* Content */}
+              <div className="relative flex h-full flex-col justify-between p-8 text-white">
+
+                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/20 backdrop-blur-lg">
+                  <Icon size={24} />
+                </div>
+
+                <div>
+                  <h3 className="font-display text-3xl font-semibold tracking-tight">
+                    {service.title}
+                  </h3>
+
+                  <p className="mt-4 max-w-xs leading-7 text-white/80">
+                    {service.description}
+                  </p>
+                </div>
+
+              </div>
+            </article>
+          );
+        })}
+
+      </div>
+    </div>
+  </section>
+);}
 
 export function WorkSection() {
-  return <section className="bg-white px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><Eyebrow>Selected work</Eyebrow><Heading>Built to be<br /><span className="text-gradient">impossible to ignore.</span></Heading></div><Link to="/work" className="group inline-flex items-center gap-2 self-start rounded-full border border-black/10 px-5 py-3 text-sm font-medium transition hover:-translate-y-0.5 hover:border-brand-pink/30">Explore all work <FiArrowUpRight className="text-brand-pink transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link></div><div className="mt-14 grid gap-5 md:grid-cols-2">{work.map(([name, industry, gradient, code], index) => <article key={name} className={`group overflow-hidden rounded-[2rem] ${index === 0 || index === 3 ? 'md:mt-12' : ''}`}><div className={`relative aspect-[1.16] overflow-hidden bg-gradient-to-br ${gradient} p-6 transition duration-700 group-hover:scale-[1.02]`}><div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,.65),transparent_26%),radial-gradient(circle_at_70%_70%,rgba(17,17,17,.18),transparent_36%)]" /><div className="absolute left-[18%] top-[18%] size-[55%] rounded-[34%] border border-white/30 bg-white/15 shadow-[inset_0_1px_30px_rgba(255,255,255,.35)] backdrop-blur-sm transition duration-700 group-hover:rotate-6 group-hover:scale-110" /><div className="absolute right-[13%] top-[12%] grid size-[32%] place-items-center rounded-full border border-white/35 bg-white/25 font-display text-3xl font-semibold tracking-[-0.1em] text-white/90 backdrop-blur-md">{code.split(' ')[0]}</div><span className="absolute bottom-6 left-6 rounded-full border border-white/40 bg-white/20 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-md">Brand world</span><span className="absolute right-6 top-6 text-[0.65rem] font-semibold tracking-[0.16em] text-white/80">{code}</span></div><div className="flex items-center justify-between px-2 pb-2 pt-5"><div><h3 className="font-display text-2xl font-medium tracking-[-0.06em]">{name}</h3><p className="mt-1 text-sm text-muted">{industry}</p></div><Link aria-label={`View ${name} project`} to="/case-study" className="grid size-10 place-items-center rounded-full border border-black/10 transition duration-300 group-hover:bg-ink group-hover:text-white"><FiArrowUpRight /></Link></div></article>)}</div></div></section>
+  return (
+    <section className="bg-white px-4 py-24 sm:px-6 sm:py-32">
+      <div className="mx-auto max-w-[1440px]">
+        {/* Header */}
+        <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
+          <div>
+            <Eyebrow>Selected Work</Eyebrow>
+            <Heading>
+              Built to be
+              <br />
+              <span className="text-gradient">impossible to ignore.</span>
+            </Heading>
+          </div>
+
+          <Link
+            to="/work"
+            className="group inline-flex items-center gap-2 self-start rounded-full border border-black/10 px-5 py-3 text-sm font-medium transition hover:-translate-y-0.5 hover:border-brand-pink/30"
+          >
+            Explore all work
+            <FiArrowUpRight className="text-brand-pink transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+
+        {/* Projects */}
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
+          {work.map((item, index) => (
+            <article
+              key={item.name}
+              className={`group overflow-hidden rounded-[2rem] ${
+                index === 0 || index === 3 ? "md:mt-12" : ""
+              }`}
+            >
+              {/* Image */}
+              <div className="relative aspect-[1.16] overflow-hidden rounded-[2rem]">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                {/* Project Code */}
+                <span className="absolute right-5 top-5 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white backdrop-blur-md">
+                  {item.code}
+                </span>
+
+                {/* Industry */}
+                <span className="absolute bottom-5 left-5 rounded-full bg-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+                  {item.industry}
+                </span>
+              </div>
+
+              {/* Content */}
+              <div className="flex items-center justify-between pt-5">
+                <div>
+                  <h3 className="font-display text-2xl font-semibold tracking-[-0.05em] text-ink">
+                    {item.name}
+                  </h3>
+
+                  <p className="mt-2 text-sm text-muted">
+                    {item.industry}
+                  </p>
+                </div>
+
+                <Link
+                  to="/case-study"
+                  aria-label={`View ${item.name}`}
+                  className="grid h-12 w-12 place-items-center rounded-full border border-black/10 transition-all duration-300 group-hover:bg-black group-hover:text-white"
+                >
+                  <FiArrowUpRight />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 }
 
 export function MetricsSection() {

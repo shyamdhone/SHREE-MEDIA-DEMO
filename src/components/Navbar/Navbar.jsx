@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { FiArrowUpRight, FiMenu, FiX } from 'react-icons/fi'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import logo from '../../assets/images/media.jpg'
 
 const navigation = [
   { label: 'Home', to: '/' },
@@ -15,7 +16,13 @@ const navigation = [
 ]
 
 function BrandMark() {
-  return <span className="font-display text-[1.05rem] font-bold leading-none tracking-[-0.075em] text-ink sm:text-lg">SHRII <span className="text-gradient">MEDIA</span></span>
+  return (
+    <img
+      src={logo}
+      alt="Shrii Media Logo"
+      className="h-10 w-auto object-contain"
+    />
+  )
 }
 
 function NavigationLink({ item, mobile = false, onNavigate }) {
