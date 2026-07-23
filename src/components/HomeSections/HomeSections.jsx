@@ -115,9 +115,9 @@ return (
         <div>
           <Eyebrow>What we do</Eyebrow>
           <Heading>
-            Designed to make
+            We handle everything
             <br />
-            your brand matter.
+            you only focus on you bussiness.
           </Heading>
         </div>
 

@@ -1,36 +1,467 @@
-import { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FiActivity, FiArrowDown, FiArrowUpRight, FiBarChart2, FiCamera, FiCheck, FiCode, FiEdit3, FiFeather, FiFilm, FiGrid, FiImage, FiLayers, FiMessageCircle, FiMonitor, FiMousePointer, FiSearch, FiTarget, FiZap } from 'react-icons/fi'
-import gsap from 'gsap'
-import { useGSAP } from '@gsap/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { 
+  FiActivity, FiArrowDown, FiArrowUpRight, FiBarChart2, FiCamera, 
+  FiEdit3, FiFeather, FiFilm, FiImage, FiLayers, 
+  FiMonitor, FiSearch, FiTarget, FiStar, FiShield, 
+  FiGlobe, FiCheckCircle 
+} from 'react-icons/fi'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const services = [
-  ['Social Media Management', 'Build a presence people want to follow.', FiLayers], ['Content Creation', 'Make every idea worth stopping for.', FiEdit3], ['Reel Editing', 'Short-form stories with staying power.', FiFilm], ['Photography', 'Create a visual world worth remembering.', FiCamera], ['Videography', 'Turn attention into feeling and action.', FiImage], ['Brand Identity', 'Be recognised before you are explained.', FiFeather], ['Performance Marketing', 'Creative growth you can measure.', FiActivity], ['Paid Advertising', 'Find the right people at the right moment.', FiTarget], ['Website Design', 'Digital flagships that pull their weight.', FiMonitor], ['UI/UX Design', 'Experiences that make the next step obvious.', FiMousePointer], ['SEO', 'Become easier to find and harder to forget.', FiSearch], ['Marketing Strategy', 'A clear direction for meaningful momentum.', FiBarChart2],
+const mainOfferings = [
+  { 
+    title: 'Omnichannel Social Scaling', 
+    description: 'Data-backed content ecosystems engineered to capture high-retention audience attention and turn views into loyal brand advocates.', 
+    icon: FiLayers, 
+    badge: 'High Conversion', 
+    metrics: '+450% Average Growth', 
+    poster: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80',
+    gradient: 'from-pink-500/10 via-purple-500/10 to-indigo-500/10',
+    borderGradient: 'group-hover:border-pink-500',
+    accentColor: 'text-pink-600',
+    badgeBg: 'bg-pink-600'
+  },
+  { 
+    title: 'Cinematic Visual Production', 
+    description: 'Thumb-stopping short-form reels, high-end commercials, and rich visual assets that instantly establish market authority.', 
+    icon: FiFilm, 
+    badge: '4K Production', 
+    metrics: 'Studio Grade Quality', 
+    poster: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80',
+    gradient: 'from-orange-500/10 via-amber-500/10 to-yellow-500/10',
+    borderGradient: 'group-hover:border-orange-500',
+    accentColor: 'text-orange-600',
+    badgeBg: 'bg-orange-600'
+  },
+  { 
+    title: 'Performance Paid Media', 
+    description: 'Laser-targeted advertising architectures across Meta, Google, and emerging channels designed for aggressive, profitable scaling.', 
+    icon: FiTarget, 
+    badge: 'ROI Focused', 
+    metrics: '5.2x Average ROAS', 
+    poster: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    gradient: 'from-violet-500/10 via-purple-500/10 to-pink-500/10',
+    borderGradient: 'group-hover:border-violet-500',
+    accentColor: 'text-violet-600',
+    badgeBg: 'bg-violet-600'
+  },
+  { 
+    title: 'Enterprise Brand Architecture', 
+    description: 'Distinctive visual identities, design systems, and positioning frameworks that make your business impossible to ignore.', 
+    icon: FiFeather, 
+    badge: 'Exclusive', 
+    metrics: 'Unmatched Recall', 
+    poster: 'https://images.unsplash.com/photo-1542744094-3a312433c4d0?auto=format&fit=crop&w=1200&q=80',
+    gradient: 'from-emerald-500/10 via-teal-500/10 to-cyan-500/10',
+    borderGradient: 'group-hover:border-emerald-500',
+    accentColor: 'text-emerald-600',
+    badgeBg: 'bg-emerald-600'
+  },
 ]
-const deepServices = [
-  { name: 'Social Media Management', copy: 'A strategic social presence built around what your audience wants to see, save, share, and act on.', includes: ['Instagram management', 'Facebook & LinkedIn', 'Content calendar', 'Analytics & monthly reports', 'Creative direction'], icon: FiLayers, reverse: false },
-  { name: 'Brand Identity', copy: 'We shape the visual and verbal signals that make your brand unmistakable in a crowded category.', includes: ['Brand strategy', 'Visual identity', 'Naming & tone of voice', 'Guidelines', 'Launch toolkit'], icon: FiFeather, reverse: true },
-  { name: 'Content Creation', copy: 'Campaign-ready photography, video, and social assets designed to carry your brand further.', includes: ['Creative concepts', 'Photography', 'Video production', 'Reels & edits', 'Content systems'], icon: FiCamera, reverse: false },
-  { name: 'Performance Marketing', copy: 'Creative, media, and insight working as one to build demand and turn it into profitable action.', includes: ['Paid social', 'Creative testing', 'Conversion strategy', 'Reporting', 'Optimisation'], icon: FiTarget, reverse: true },
+
+const boutiqueServices = [
+  ['Viral Content Engineering', 'Short-form hooks and loops built to dominate algorithmic feeds.', FiEdit3, 'Engagement', 'from-pink-500/10 to-rose-500/5', 'hover:border-pink-500'],
+  ['Commercial Photography', 'Immersive studio photography that elevates product and brand perception.', FiCamera, 'Visuals', 'from-purple-500/10 to-indigo-500/5', 'hover:border-purple-500'],
+  ['Brand Videography', 'Story-driven brand films that build deep emotional resonance.', FiImage, 'Narrative', 'from-orange-500/10 to-amber-500/5', 'hover:border-orange-500'],
+  ['Advanced SEO & Search', 'Dominating search engine results to capture high-intent organic traffic.', FiSearch, 'Visibility', 'from-cyan-500/10 to-blue-500/5', 'hover:border-cyan-500'],
+  ['Bespoke Web Flagships', 'Lightning-fast digital platforms optimized specifically for high conversion rates.', FiMonitor, 'UI / UX', 'from-emerald-500/10 to-teal-500/5', 'hover:border-emerald-500'],
+  ['Growth Strategy Sprints', 'Rigorous market audits and customized roadmaps for exponential scaling.', FiBarChart2, 'Analytics', 'from-violet-500/10 to-fuchsia-500/5', 'hover:border-violet-500'],
 ]
-const reasons = [['Creative Team', 'Senior creative thinking without the agency layers.', FiZap], ['Fast Delivery', 'A nimble, focused team that keeps pace with ambition.', FiActivity], ['Result Driven', 'Every creative decision is connected to a business result.', FiBarChart2], ['Transparent Reporting', 'Clear insights, shared often, with no vanity theatre.', FiGrid], ['Dedicated Support', 'A responsive creative partner who knows your world.', FiMessageCircle], ['Custom Strategy', 'No copy-and-paste playbooks. Only what fits.', FiTarget]]
-const industries = ['Jewellery', 'Fashion', 'Restaurants', 'Real Estate', 'Healthcare', 'Education', 'Personal Brands', 'Fitness', 'Hospitality', 'Technology']
-const tools = ['Meta', 'Instagram', 'Google Ads', 'Adobe', 'Figma', 'Notion', 'Canva', 'CapCut', 'React', 'WordPress']
-const faqs = [['How do we know which services are right for us?', 'We start with your business goals, current presence, and audience. From there, we recommend a focused mix that will create the strongest momentum.'], ['Do you work with businesses outside of social media?', 'Yes. Our work spans brand identity, websites, paid campaigns, content systems, and the strategy connecting them.'], ['What does a typical engagement look like?', 'Most partnerships begin with a strategic sprint, then move into an ongoing monthly creative and growth rhythm.'], ['How soon can we get started?', 'After a discovery call, we can typically begin a focused project within two to three weeks.']]
 
-function SectionTitle({ eyebrow, title, copy, center = false }) { return <div className={`${center ? 'mx-auto text-center' : ''} max-w-3xl`}><p className="mb-4 text-[.65rem] font-semibold uppercase tracking-[.18em] text-muted">{eyebrow}</p><h2 className="font-display text-4xl font-semibold leading-[.93] tracking-[-.08em] sm:text-6xl">{title}</h2>{copy && <p className="mt-6 max-w-xl text-sm leading-7 text-muted sm:text-base">{copy}</p>}</div> }
-function ServiceVisual({ Icon }) { return <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-[2.25rem] border border-white/80 bg-gradient-to-br from-brand-pink/15 via-brand-red/10 to-brand-gold/25 shadow-[0_25px_65px_rgba(255,0,110,.12)]"><div className="absolute -left-12 top-12 size-56 rounded-full bg-brand-pink/25 blur-3xl" /><div className="absolute -right-8 bottom-2 size-48 rounded-full bg-brand-orange/25 blur-3xl" /><div className="absolute inset-[14%] rounded-[2rem] border border-white/80 bg-white/50 backdrop-blur-xl" /><div className="absolute left-[20%] top-[24%] grid size-[42%] place-items-center rounded-3xl border border-white/80 bg-white/65 text-brand-pink shadow-xl backdrop-blur-xl"><Icon className="text-5xl" /></div><div className="absolute bottom-[17%] right-[13%] rounded-2xl border border-white/80 bg-white/75 px-4 py-3 shadow-lg backdrop-blur-xl"><p className="text-[.58rem] font-semibold uppercase tracking-[.12em] text-muted">Creative signal</p><div className="mt-2 flex h-5 items-end gap-1">{[40, 72, 55, 95, 68].map((h, i) => <span key={i} className="w-2 rounded-t-full bg-gradient-to-t from-brand-pink to-brand-orange" style={{ height: `${h}%` }} />)}</div></div></div> }
+const executionSteps = [
+  ['01', 'Deep Diagnostic', 'We analyze your current metrics, infrastructure, bottlenecks, and competitive gaps.', 'from-pink-500/10 via-rose-500/5 to-transparent', 'border-pink-200 text-pink-600'],
+  ['02', 'Blueprint Engineering', 'Designing custom creative angles, funnel architectures, and media mixes.', 'from-purple-500/10 via-indigo-500/5 to-transparent', 'border-purple-200 text-purple-600'],
+  ['03', 'Asset Production', 'Shooting, editing, and building elite cinematic assets and high-converting pages.', 'from-orange-500/10 via-amber-500/5 to-transparent', 'border-orange-200 text-orange-600'],
+  ['04', 'Omnichannel Launch', 'Deploying synchronized campaigns across ad networks and organic social feeds.', 'from-cyan-500/10 via-blue-500/5 to-transparent', 'border-cyan-200 text-cyan-600'],
+  ['05', 'Scale & Optimize', 'Real-time performance iterations, budget scaling, and continuous creative loops.', 'from-emerald-500/10 via-teal-500/5 to-transparent', 'border-emerald-200 text-emerald-600'],
+]
 
-function ServiceDetail({ item }) { const Icon = item.icon; return <section data-service-detail className="px-4 py-24 sm:px-6 sm:py-32"><div className={`mx-auto grid max-w-[1440px] items-center gap-12 lg:grid-cols-2 ${item.reverse ? 'lg:[&>*:first-child]:order-2' : ''}`}><div><p className="text-[.65rem] font-semibold uppercase tracking-[.18em] text-muted">{item.name}</p><h2 className="mt-5 font-display text-4xl font-semibold leading-[.93] tracking-[-.08em] sm:text-6xl">Designed to<br /><span className="text-gradient">move the needle.</span></h2><p className="mt-6 max-w-lg text-sm leading-7 text-muted sm:text-base">{item.copy}</p><div className="mt-8 grid gap-3 sm:grid-cols-2">{item.includes.map((entry) => <div key={entry} className="flex items-center gap-3 rounded-2xl border border-black/[.07] bg-white px-4 py-3 text-sm"><span className="grid size-6 place-items-center rounded-full bg-brand-pink/10 text-brand-pink"><FiCheck className="text-xs" /></span>{entry}</div>)}</div><Link to="/contact" className="group mt-8 inline-flex items-center gap-2 text-sm font-medium">Talk to our team <FiArrowUpRight className="text-brand-pink transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link></div><ServiceVisual Icon={Icon} /></div></section> }
+const showcaseWorks = [
+  {
+    title: 'Aura Luxury Flagship Redesign',
+    category: 'Web Design & Brand Identity',
+    outcome: '+540% Revenue Growth in 90 Days',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80',
+    stat: '6.4x ROAS',
+    gradient: 'from-pink-500/15 via-rose-500/5 to-transparent'
+  },
+  {
+    title: 'Verve Fitness Content Ecosystem',
+    category: 'Short-Form Video & Social Growth',
+    outcome: '1.5M+ Organic Reach & Full Booking Pipeline',
+    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80',
+    stat: '4.2M Views',
+    gradient: 'from-purple-500/15 via-indigo-500/5 to-transparent'
+  },
+  {
+    title: 'NexGen FinTech Acquisition Funnel',
+    category: 'Paid Media & Conversion Rate Optimization',
+    outcome: '$5.2M Pipeline Generated via Meta Ads',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    stat: '45% Lower CAC',
+    gradient: 'from-orange-500/15 via-amber-500/5 to-transparent'
+  }
+]
 
-function Process() { const steps = ['Discovery', 'Research', 'Strategy', 'Content', 'Execution', 'Optimisation', 'Growth']; return <section className="bg-ink px-4 py-24 text-white sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><SectionTitle eyebrow="Our process" title={<>Clear thinking.<br />Beautiful momentum.</>} /><div className="mt-14 grid gap-3 md:grid-cols-7">{steps.map((step, index) => <div data-process-step key={step} className="relative rounded-2xl border border-white/10 bg-white/[.06] p-4 backdrop-blur-md"><span className="font-display text-xs text-brand-gold">0{index + 1}</span><p className="mt-10 font-display text-xl font-medium tracking-[-.05em]">{step}</p>{index < steps.length - 1 && <FiArrowDown className="absolute -bottom-6 left-1/2 text-white/30 md:-right-5 md:bottom-auto md:left-auto md:top-1/2 md:-translate-y-1/2 md:-rotate-90" />}</div>)}</div></div></section> }
+const clientFeedback = [
+  { 
+    quote: "Shrii Media completely overhauled our digital presence. Our monthly revenue doubled within 60 days of partnering with them.", 
+    name: "Aarav Sharma", 
+    title: "Managing Director, Aura Luxury", 
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+    gradient: 'from-pink-500/10 via-purple-500/5 to-transparent'
+  },
+  { 
+    quote: "Their standard of creative execution and media buying discipline is unmatched. They feel like a true extension of our founding team.", 
+    name: "Neha Kapoor", 
+    title: "Founder, Verve Fitness", 
+    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
+    gradient: 'from-orange-500/10 via-pink-500/5 to-transparent'
+  },
+]
+
+const frequentlyAsked = [
+  ['What type of businesses do you typically partner with?', 'We partner with ambitious scaling brands, e-commerce leaders, luxury enterprises, and tech companies looking to dominate their market category through modern creative and performance marketing.'],
+  ['How fast can we launch our campaigns after onboarding?', 'Our standard onboarding and discovery sprint takes 10 to 14 business days, after which initial content systems and paid media campaigns go live.'],
+  ['Do you handle both creative asset production and media buying?', 'Yes. We provide a fully integrated service model covering everything from high-end video production and design systems to precise media buying and revenue tracking.']
+]
+
+function SectionHeading({ tag, title, subtitle, centered = false }) {
+  return (
+    <div className={`${centered ? 'mx-auto text-center' : ''} max-w-3xl`}>
+      <span className="inline-block mb-3 px-4 py-1.5 rounded-full text-[0.65rem] font-extrabold uppercase tracking-[0.2em] bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-orange-500/20 text-pink-700 border border-pink-500/30 shadow-sm">
+        {tag}
+      </span>
+      <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-5xl text-slate-900 leading-tight">
+        {title}
+      </h2>
+      {subtitle && <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600">{subtitle}</p>}
+    </div>
+  )
+}
 
 export function ServicesPage() {
-  const [openFaq, setOpenFaq] = useState(0)
-  const scope = useRef(null)
-  useGSAP(() => { gsap.from('[data-services-hero]', { autoAlpha: 0, y: 28, stagger: .11, duration: .85, ease: 'power3.out' }); gsap.from('[data-service-card]', { autoAlpha: 0, y: 28, stagger: .06, duration: .65, scrollTrigger: { trigger: '[data-services-grid]', start: 'top 80%' } }); gsap.utils.toArray('[data-service-detail]').forEach((section, index) => gsap.from(section.children, { autoAlpha: 0, x: index % 2 ? 28 : -28, stagger: .12, duration: .8, scrollTrigger: { trigger: section, start: 'top 78%' } })); gsap.from('[data-process-step]', { autoAlpha: 0, y: 20, stagger: .1, duration: .65, scrollTrigger: { trigger: '[data-process-step]', start: 'top 83%' } }) }, { scope })
-  return <main ref={scope} className="overflow-hidden bg-white pt-24"><section className="relative isolate overflow-hidden px-4 pb-24 pt-20 sm:px-6 sm:pb-32"><div className="absolute -left-24 top-0 -z-10 size-96 rounded-full bg-brand-pink/15 blur-3xl" /><div className="absolute -right-20 top-8 -z-10 size-[32rem] rounded-full bg-brand-gold/15 blur-3xl" /><div className="mx-auto max-w-[1440px]"><p data-services-hero className="text-[.65rem] font-semibold uppercase tracking-[.18em] text-muted">SHRII MEDIA / SERVICES</p><h1 data-services-hero className="mt-6 max-w-5xl font-display text-[clamp(4rem,9vw,9.5rem)] font-semibold leading-[.82] tracking-[-.1em]">Creative Services<br /><span className="text-gradient">That Drive Real Growth.</span></h1><p data-services-hero className="mt-8 max-w-md text-sm leading-7 text-muted sm:text-base">We help businesses build brands, create content, generate leads, and scale through creative marketing.</p><Link data-services-hero to="/contact" className="group mt-9 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-white shadow-[0_14px_30px_rgba(17,17,17,.14)] transition duration-300 hover:scale-105">Book Free Strategy Call <FiArrowUpRight className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link></div></section><section className="bg-[#fafafa] px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><SectionTitle eyebrow="Capabilities" title={<>A better way to<br />build demand.</>} copy="Services designed as connected business solutions—not a menu of isolated deliverables." /><div data-services-grid className="mt-14 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{services.map(([name, description, Icon], index) => <article data-service-card key={name} className="group relative overflow-hidden rounded-3xl border border-black/[.06] bg-white p-6 shadow-[0_14px_42px_rgba(0,0,0,.05)] transition duration-500 hover:-translate-y-2 hover:border-brand-pink/20 hover:shadow-[0_24px_55px_rgba(255,0,110,.13)]"><div className="absolute -right-8 -top-8 size-28 rounded-full bg-gradient-to-br from-brand-pink/0 to-brand-orange/0 blur-2xl transition duration-500 group-hover:from-brand-pink/25 group-hover:to-brand-orange/20" /><div className="relative"><div className="flex items-start justify-between"><span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-brand-pink/10 via-brand-red/10 to-brand-orange/15 text-brand-pink transition duration-500 group-hover:scale-110"><Icon /></span><span className="text-sm text-black/25">{String(index + 1).padStart(2, '0')}</span></div><h3 className="mt-12 font-display text-2xl font-medium tracking-[-.06em]">{name}</h3><p className="mt-3 text-sm text-muted">{description}</p><span className="mt-5 inline-flex size-8 items-center justify-center rounded-full border border-black/10 transition duration-300 group-hover:translate-x-1 group-hover:bg-ink group-hover:text-white"><FiArrowUpRight /></span></div></article>)}</div></div></section>{deepServices.map((item) => <ServiceDetail key={item.name} item={item} />)}<Process /><section className="bg-[#fafafa] px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><SectionTitle eyebrow="Why SHRII MEDIA" title={<>Creative partnership,<br /><span className="text-gradient">made personal.</span></>} /><div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{reasons.map(([title, copy, Icon]) => <article key={title} className="group rounded-3xl border border-black/[.06] bg-white p-6 shadow-[0_14px_38px_rgba(0,0,0,.04)] transition duration-500 hover:-translate-y-2 hover:shadow-[0_22px_50px_rgba(255,0,110,.11)]"><span className="grid size-11 place-items-center rounded-2xl bg-brand-pink/10 text-brand-pink transition duration-500 group-hover:rotate-6 group-hover:scale-110"><Icon /></span><h3 className="mt-9 font-display text-2xl font-medium tracking-[-.06em]">{title}</h3><p className="mt-3 text-sm leading-6 text-muted">{copy}</p></article>)}</div></div></section><section className="px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><SectionTitle eyebrow="Industries" title="Fluent in your<br />world." /><div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{industries.map((industry, index) => <div key={industry} className="group relative overflow-hidden rounded-2xl border border-black/[.07] bg-white px-4 py-6 shadow-sm transition duration-500 hover:-translate-y-1 hover:border-brand-pink/25 hover:shadow-[0_16px_35px_rgba(255,0,110,.1)]"><span className="absolute -right-4 -top-4 size-12 rounded-full bg-brand-orange/0 blur-xl transition group-hover:bg-brand-orange/20" /><span className="font-display text-xl font-medium tracking-[-.05em]">{industry}</span><p className="mt-4 text-[.6rem] font-semibold tracking-[.14em] text-muted">0{index + 1}</p></div>)}</div></div></section><section className="bg-[#fafafa] px-4 py-20 sm:px-6"><div className="mx-auto max-w-[1440px]"><SectionTitle eyebrow="Technology & tools" title="The right tools,<br />in the right hands." /><div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-5">{tools.map((tool) => <div key={tool} className="group grid h-24 place-items-center rounded-2xl border border-black/[.06] bg-white font-display text-lg font-semibold tracking-[-.06em] text-black/45 transition duration-300 hover:-translate-y-1 hover:text-ink hover:shadow-[0_14px_30px_rgba(0,0,0,.07)]">{tool}</div>)}</div></div></section><section className="px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-[1440px]"><SectionTitle eyebrow="Pricing preview" title="Built around your<br />next stage of growth." /><div className="mt-12 grid gap-4 md:grid-cols-3">{[['Starter', 'For a clear creative foundation', 'From $1,200'], ['Growth', 'For brands ready for momentum', 'From $2,500'], ['Premium', 'For ambitious, always-on brands', 'Custom scope']].map(([name, copy, price], index) => <article key={name} className={`rounded-[2rem] border p-7 ${index === 1 ? 'border-brand-pink/25 bg-gradient-to-br from-brand-pink/[.06] to-brand-orange/[.08] shadow-[0_20px_48px_rgba(255,0,110,.1)]' : 'border-black/[.07] bg-white'}`}><p className="font-display text-3xl font-medium tracking-[-.07em]">{name}</p><p className="mt-3 text-sm leading-6 text-muted">{copy}</p><p className="mt-8 font-display text-2xl font-semibold tracking-[-.06em]">{price}</p><Link to="/pricing" className="mt-7 inline-flex items-center gap-2 text-sm font-medium">View Full Pricing <FiArrowUpRight className="text-brand-pink" /></Link></article>)}</div></div></section><section className="bg-[#fafafa] px-4 py-24 sm:px-6 sm:py-32"><div className="mx-auto max-w-3xl"><SectionTitle eyebrow="FAQ" title="A few good<br />questions." /> <div className="mt-10 divide-y divide-black/[.08]">{faqs.map(([question, answer], index) => <div key={question}><button type="button" onClick={() => setOpenFaq(openFaq === index ? -1 : index)} className="flex w-full items-center justify-between gap-4 py-5 text-left font-display text-xl font-medium tracking-[-.05em]"><span>{question}</span><span className={`grid size-8 shrink-0 place-items-center rounded-full border border-black/10 transition duration-300 ${openFaq === index ? 'rotate-45 bg-ink text-white' : ''}`}>+</span></button><div className={`grid transition-[grid-template-rows] duration-500 ${openFaq === index ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}><div className="overflow-hidden"><p className="max-w-xl pb-5 text-sm leading-7 text-muted">{answer}</p></div></div></div>)}</div></div></section><section className="px-4 pb-12 sm:px-6"><div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-8 rounded-[2.25rem] bg-gradient-to-r from-brand-pink via-brand-red to-brand-orange px-7 py-12 text-white sm:px-12 sm:py-16 md:flex-row md:items-end"><div><p className="text-[.65rem] font-semibold uppercase tracking-[.16em] text-white/65">Let’s make growth feel natural</p><h2 className="mt-4 font-display text-4xl font-semibold leading-[.93] tracking-[-.08em] sm:text-6xl">Ready to Grow<br />Your Brand?</h2></div><div className="flex flex-col gap-3 sm:flex-row"><Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink transition hover:scale-105">Book Free Strategy Call <FiArrowUpRight className="text-brand-pink" /></Link><a href="https://wa.me/" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3.5 text-sm font-semibold transition hover:scale-105"><FiMessageCircle /> WhatsApp</a></div></div></section></main>
+  const [activeFaq, setActiveFaq] = useState(0)
+
+  return (
+    <main className="overflow-hidden bg-white text-slate-900 pt-36 sm:pt-40 selection:bg-pink-500 selection:text-white relative">
+      
+      {/* Background Grids & Vibrant Multi-color Ambient Glows */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px] opacity-60 pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-pink-500/15 via-purple-500/10 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute top-[40%] right-10 w-[500px] h-[500px] bg-gradient-to-br from-orange-500/15 via-amber-500/10 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[600px] h-[600px] bg-gradient-to-tr from-cyan-500/10 via-indigo-500/15 to-transparent blur-[120px] pointer-events-none" />
+
+      {/* 1. HERO SECTION */}
+      <section className="relative isolate px-4 pb-16 pt-4 sm:px-6 sm:pb-24 bg-transparent">
+        <div className="mx-auto max-w-[1440px] grid lg:grid-cols-12 gap-12 items-center relative z-10">
+          
+          <div className="lg:col-span-7 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-orange-500/10 border border-pink-500/20 text-[0.65rem] font-extrabold uppercase tracking-[0.2em] text-slate-800 mb-6 shadow-sm">
+              <span className="size-2 rounded-full bg-pink-500 animate-pulse" /> SHRII MEDIA • ELITE DIGITAL AGENCY
+            </div>
+            
+            <h1 className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-extrabold leading-[0.98] tracking-[-0.04em] text-slate-900">
+              WE ENGINEER <br />
+              <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">
+                HIGH-IMPACT GROWTH
+              </span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-slate-600 mx-auto lg:mx-0">
+              Stop settling for average creative and wasted ad spend. We combine cinematic brand storytelling with aggressive performance marketing frameworks to maximize your revenue.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
+              <Link to="/contact" className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-pink-600 via-purple-600 to-orange-500 px-8 py-4 text-sm font-bold text-white shadow-[0_15px_30px_rgba(236,72,153,0.3)] transition hover:scale-105">
+                Book Strategy Call <FiArrowUpRight className="text-lg transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+              <a href="#offerings" className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 backdrop-blur-md px-8 py-4 text-sm font-bold text-slate-800 shadow-sm transition hover:bg-slate-50">
+                Explore Solutions <FiArrowDown className="text-sm text-pink-600" />
+              </a>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <div className="relative aspect-square rounded-[2.5rem] border border-pink-500/20 bg-gradient-to-br from-white via-pink-50/40 to-purple-50/30 p-8 shadow-2xl shadow-pink-500/10 flex flex-col justify-between overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/5 to-orange-500/10 -z-10" />
+              
+              <div className="flex justify-between items-center text-slate-700">
+                <span className="text-xs uppercase font-extrabold tracking-widest bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">Growth Dashboard</span>
+                <span className="grid size-10 place-items-center rounded-full bg-white text-pink-600 shadow-md border border-pink-100"><FiActivity className="animate-spin text-pink-600" /></span>
+              </div>
+              
+              <div className="my-auto grid grid-cols-2 gap-4 text-left">
+                <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-pink-500/20 shadow-lg shadow-pink-500/5 transition hover:scale-105 duration-300">
+                  <p className="font-display text-3xl font-black bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent tracking-tight">100+</p>
+                  <p className="mt-1 text-xs font-semibold text-slate-500 uppercase">Projects</p>
+                </div>
+                <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-purple-500/20 shadow-lg shadow-purple-500/5 transition hover:scale-105 duration-300">
+                  <p className="font-display text-3xl font-black bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent tracking-tight">50+</p>
+                  <p className="mt-1 text-xs font-semibold text-slate-500 uppercase">Global Clients</p>
+                </div>
+                <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-orange-500/20 shadow-lg shadow-orange-500/5 transition hover:scale-105 duration-300">
+                  <p className="font-display text-3xl font-black bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent tracking-tight">98%</p>
+                  <p className="mt-1 text-xs font-semibold text-slate-500 uppercase">Retention</p>
+                </div>
+                <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-emerald-500/20 shadow-lg shadow-emerald-500/5 transition hover:scale-105 duration-300">
+                  <p className="font-display text-3xl font-black bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent tracking-tight">5.2x</p>
+                  <p className="mt-1 text-xs font-semibold text-slate-500 uppercase">Avg ROAS</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between border-t border-slate-200/85 pt-5">
+                <div className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 bg-white/90 px-4 py-2 rounded-xl shadow-sm border border-emerald-200">
+                  <span className="size-2 rounded-full bg-emerald-500 animate-ping" /> Systems Fully Operational
+                </div>
+                <span className="text-xs font-mono bg-gradient-to-r from-pink-600 to-orange-500 bg-clip-text text-transparent font-bold">Live Status</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* TRUST METRICS BAR */}
+      <section className="py-8 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-orange-500/5 border-y border-pink-500/20">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="flex items-center justify-center gap-2">
+            <div className="flex text-amber-500"><FiStar className="fill-amber-500" /><FiStar className="fill-amber-500" /><FiStar className="fill-amber-500" /><FiStar className="fill-amber-500" /><FiStar className="fill-amber-500" /></div>
+            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-800">★★★★★ Rated</span>
+          </div>
+          <div className="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center justify-center gap-2">
+            <FiCheckCircle className="text-pink-600 text-base" /> 100+ Projects Done
+          </div>
+          <div className="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center justify-center gap-2">
+            <FiGlobe className="text-orange-500 text-base" /> Global Reach
+          </div>
+          <div className="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center justify-center gap-2">
+            <FiShield className="text-purple-600 text-base" /> Enterprise Security
+          </div>
+        </div>
+      </section>
+
+      {/* 2. CORE OFFERINGS SECTION */}
+      <section id="offerings" className="px-4 py-20 sm:px-6 sm:py-24 bg-white relative">
+        <div className="mx-auto max-w-[1440px]">
+          <SectionHeading 
+            tag="Core Solutions" 
+            title="The pillars of your digital domination." 
+            subtitle="Built to generate absolute market authority and secure measurable return on investment."
+          />
+
+          <div className="mt-12 grid gap-8 md:grid-cols-2">
+            {mainOfferings.map((item) => {
+              const Icon = item.icon
+              return (
+                <div key={item.title} className={`group relative overflow-hidden rounded-[2.5rem] border border-slate-200 bg-gradient-to-br ${item.gradient} p-8 shadow-lg shadow-slate-900/5 transition-all duration-300 hover:-translate-y-2 ${item.borderGradient} hover:shadow-2xl flex flex-col justify-between`}>
+                  
+                  <div className="relative aspect-video rounded-2xl overflow-hidden mb-8 border border-white/60 shadow-md">
+                    <img src={item.poster} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-950/10 to-transparent" />
+                    <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                      {item.metrics}
+                    </span>
+                    <span className={`absolute top-4 right-4 ${item.badgeBg} text-white font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-md`}>
+                      {item.badge}
+                    </span>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="grid size-14 place-items-center rounded-2xl bg-white text-slate-900 shadow-md border border-slate-200 group-hover:bg-gradient-to-br group-hover:from-pink-600 group-hover:via-purple-600 group-hover:to-orange-500 group-hover:text-white transition duration-300">
+                        <Icon className="text-2xl" />
+                      </span>
+                    </div>
+                    <h3 className="font-display text-2xl font-bold text-slate-900 tracking-tight">{item.title}</h3>
+                    <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-600">{item.description}</p>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-slate-200/80 flex items-center justify-between">
+                    <span className="text-xs font-extrabold uppercase tracking-widest text-pink-700 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">Active System</span>
+                    <Link to="/contact" className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 group-hover:text-pink-600 transition">
+                      Inquire Now <FiArrowUpRight />
+                    </Link>
+                  </div>
+
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Boutique Capabilities Grid */}
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {boutiqueServices.map(([name, desc, Icon, tag, gradClass, hoverBorder]) => (
+              <div key={name} className={`rounded-[2rem] border border-slate-200 bg-gradient-to-br ${gradClass} p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${hoverBorder} hover:shadow-xl hover:bg-white`}>
+                <div className="flex items-center justify-between">
+                  <span className="grid size-12 place-items-center rounded-xl bg-white text-pink-600 shadow-md border border-slate-200">
+                    <Icon className="text-lg" />
+                  </span>
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-700 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-slate-200 shadow-sm">{tag}</span>
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold text-slate-900 tracking-tight">{name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. EXECUTION ROADMAP */}
+      <section className="px-4 py-20 sm:px-6 sm:py-24 bg-gradient-to-b from-slate-50/50 via-pink-50/20 to-slate-50/50 border-y border-pink-500/20">
+        <div className="mx-auto max-w-[1440px]">
+          <SectionHeading 
+            tag="Roadmap" 
+            title="Our precision execution framework." 
+            subtitle="A systematic, battle-tested roadmap designed to eliminate guesswork and scale efficiently."
+          />
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+            {executionSteps.map(([num, title, desc, bgGrad, borderClass]) => (
+              <div key={num} className={`rounded-[2.25rem] border border-slate-200 bg-gradient-to-b ${bgGrad} p-8 relative overflow-hidden shadow-md flex flex-col justify-between hover:border-pink-500 transition duration-300`}>
+                <div>
+                  <span className={`font-display text-4xl font-black block mb-4 border-b pb-3 ${borderClass}`}>{num}</span>
+                  <h3 className="font-display text-lg font-bold text-slate-900 tracking-tight">{title}</h3>
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-600">{desc}</p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-slate-200/60 text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
+                  Step 0{num}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. FEATURED CASE STUDIES / WORK */}
+      <section className="px-4 py-20 sm:px-6 sm:py-24 bg-white">
+        <div className="mx-auto max-w-[1440px]">
+          <SectionHeading 
+            tag="Proven Work" 
+            title="Real transformations, real returns." 
+            subtitle="Explore select client case studies that demonstrate our capacity for exponential scaling."
+          />
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-3">
+            {showcaseWorks.map((work) => (
+              <div key={work.title} className={`group rounded-[2.5rem] border border-slate-200 bg-gradient-to-br ${work.gradient} overflow-hidden shadow-lg shadow-slate-900/5 flex flex-col justify-between hover:border-pink-500 hover:shadow-2xl transition-all duration-300`}>
+                <div className="relative aspect-video overflow-hidden border-b border-slate-200">
+                  <img src={work.image} alt={work.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
+                  <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                    {work.category}
+                  </span>
+                  <span className="absolute bottom-4 right-4 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-extrabold text-xs px-3 py-1.5 rounded-xl shadow-lg">
+                    {work.stat}
+                  </span>
+                </div>
+                <div className="p-8 flex flex-col flex-grow justify-between bg-white/60 backdrop-blur-md">
+                  <div>
+                    <h3 className="font-display text-xl font-bold text-slate-900 tracking-tight">{work.title}</h3>
+                    <p className="mt-2 text-sm font-semibold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">{work.outcome}</p>
+                  </div>
+                  <Link to="/contact" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-slate-900 group-hover:text-pink-600 transition">
+                    View Case Study <FiArrowUpRight />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. TESTIMONIALS */}
+      <section className="px-4 py-20 sm:px-6 sm:py-24 bg-gradient-to-tr from-purple-500/5 via-pink-500/5 to-orange-500/5 border-y border-pink-500/20">
+        <div className="mx-auto max-w-[1440px]">
+          <SectionHeading 
+            tag="Testimonials" 
+            title="Trusted by forward-thinking founders." 
+            subtitle="Hear directly from leaders who scaled their enterprises with Shrii Media."
+          />
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-2 max-w-5xl mx-auto">
+            {clientFeedback.map((test) => (
+              <div key={test.name} className={`rounded-[2.5rem] border border-pink-500/20 bg-gradient-to-br ${test.gradient} p-8 sm:p-10 shadow-xl shadow-pink-500/5 flex flex-col justify-between backdrop-blur-md bg-white/90`}>
+                <div>
+                  <div className="flex gap-1 text-amber-500 mb-6">
+                    {[...Array(5)].map((_, i) => <FiStar key={i} className="fill-amber-500 text-sm" />)}
+                  </div>
+                  <p className="text-base sm:text-lg leading-relaxed text-slate-700 italic">"{test.quote}"</p>
+                </div>
+                <div className="mt-8 flex items-center gap-4 pt-6 border-t border-slate-200/80">
+                  <img src={test.avatar} alt={test.name} className="size-12 rounded-full object-cover border-2 border-pink-500 shadow-md" />
+                  <div>
+                    <p className="font-display font-bold text-slate-900">{test.name}</p>
+                    <p className="text-xs bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent font-semibold">{test.title}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. FAQS */}
+      <section className="px-4 py-20 sm:px-6 sm:py-24 bg-white">
+        <div className="mx-auto max-w-3xl">
+          <SectionHeading 
+            tag="FAQ" 
+            title="Frequently asked questions." 
+            subtitle="Everything you need to know before joining forces with our team."
+            centered={true}
+          />
+
+          <div className="mt-12 space-y-4">
+            {frequentlyAsked.map(([question, answer], i) => {
+              const isOpen = activeFaq === i
+              return (
+                <div key={question} className="rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-50/50 to-pink-50/20 overflow-hidden transition duration-300 shadow-sm">
+                  <button 
+                    onClick={() => setActiveFaq(isOpen ? null : i)}
+                    className="w-full p-6 sm:p-8 text-left flex items-center justify-between gap-4 font-display font-bold text-slate-900 text-base sm:text-lg"
+                  >
+                    <span>{question}</span>
+                    <span className={`grid size-9 shrink-0 place-items-center rounded-full bg-white text-pink-600 border border-slate-200 shadow-sm transition-transform duration-300 ${isOpen ? 'rotate-45 bg-gradient-to-r from-pink-600 to-purple-600 text-white border-transparent' : ''}`}>
+                      +
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-6 pb-6 sm:px-8 sm:pb-8 text-slate-600 text-sm sm:text-base leading-relaxed border-t border-slate-200/60 pt-4 bg-white/50">
+                      {answer}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. CTA BANNER */}
+      <section className="px-4 pb-20 sm:px-6 sm:pb-24 bg-white">
+        <div className="mx-auto max-w-[1440px]">
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-pink-600 via-purple-600 to-orange-500 p-10 sm:p-16 text-center text-white shadow-2xl shadow-pink-500/20">
+            <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
+            <div className="relative z-10 max-w-3xl mx-auto">
+              <span className="inline-block mb-3 px-4 py-1.5 rounded-full text-[0.65rem] font-extrabold uppercase tracking-[0.2em] bg-white/20 text-white backdrop-blur-md border border-white/20">
+                Accelerate Today
+              </span>
+              <h2 className="font-display text-3xl font-black tracking-tight sm:text-5xl">
+                Ready to scale your brand to new heights?
+              </h2>
+              <p className="mt-4 text-base sm:text-lg text-white/90 leading-relaxed">
+                Book a confidential strategy call with our leadership team today and discover how our integrated growth engine can transform your revenue.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <Link to="/contact" className="inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm font-bold text-slate-900 shadow-xl transition hover:scale-105">
+                  Book Strategy Call <FiArrowUpRight className="text-lg text-pink-600" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  )
 }
