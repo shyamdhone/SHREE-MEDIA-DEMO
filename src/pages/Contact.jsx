@@ -149,7 +149,7 @@ export default function Contact() {
 
               {/* Email */}
               <a
-                href="mailto:contact@shriimedia.com"
+                href=" shrizdigital@gamail.com "
                 className="flex items-center gap-4 p-4 rounded-2xl bg-white shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group"
               >
                 <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
@@ -157,7 +157,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Email Us</p>
-                  <p className="text-lg font-bold text-gray-900">contact@shriimedia.com</p>
+                  <p className="text-lg font-bold text-gray-900">shrizdigital@gamail.com</p>
                 </div>
               </a>
 
@@ -246,7 +246,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    placeholder="john@example.com"
+                    placeholder=" shrizdigital@gamail.com "
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-green-600 focus:ring-2 focus:ring-green-100 outline-none transition-all duration-300 bg-gray-50/50"
                   />
                 </div>

@@ -19,25 +19,16 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             
-            {/* CEO Image Card */}
+            {/* CEO Image Card - Using object-contain so nothing is cut */}
             <div className="relative flex justify-center group">
-              <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-tr from-blue-600/20 via-indigo-600/10 to-cyan-400/20 blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <div className="absolute -inset-4 rounded-[48px] bg-gradient-to-tr from-blue-600/20 via-indigo-600/10 to-cyan-400/20 blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
               
-              <div className="relative overflow-hidden rounded-[32px] border border-slate-200/80 shadow-[0_20px_50px_rgba(0,0,0,0.08)] bg-white p-2">
+              <div className="relative overflow-hidden rounded-[36px] border border-slate-200/80 shadow-[0_25px_60px_rgba(0,0,0,0.08)] bg-slate-900 p-4 w-full max-w-[480px] flex items-center justify-center">
                 <img
                   src={ceoImage}
                   alt="Founder & CEO"
-                  className="w-[400px] h-[500px] object-cover rounded-[24px] group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-auto max-h-[650px] object-contain rounded-[24px]"
                 />
-                
-                {/* Floating Badge */}
-                <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl border border-slate-100 shadow-lg flex items-center gap-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <div>
-                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Leadership</p>
-                    <p className="text-sm font-bold text-slate-900">Visionary Execution</p>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -55,8 +46,8 @@ export default function About() {
               </h1>
 
               <div className="mt-6">
-                <h2 className="text-2xl font-bold text-slate-900">CEO Name</h2>
-                <p className="text-blue-600 font-medium text-base mt-1">Founder & CEO, Shrii Media</p>
+                <h2 className="text-2xl font-bold text-slate-900">Shrikant Awchar</h2>
+                <p className="text-blue-600 font-medium text-base mt-1">Founder & Creative Director, Shrii Media</p>
               </div>
 
               <p className="mt-6 text-slate-600 leading-relaxed text-lg font-normal">
@@ -108,8 +99,6 @@ export default function About() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
-            
-            {/* Card 1 */}
             <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
               <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
                 <FaPalette size={24} />
@@ -120,7 +109,6 @@ export default function About() {
               </p>
             </div>
 
-            {/* Card 2 */}
             <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
               <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                 <FaBullhorn size={24} />
@@ -131,7 +119,6 @@ export default function About() {
               </p>
             </div>
 
-            {/* Card 3 */}
             <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
               <div className="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
                 <FaPenNib size={24} />
@@ -142,7 +129,6 @@ export default function About() {
               </p>
             </div>
 
-            {/* Card 4 */}
             <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
               <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
                 <FaCalendarAlt size={24} />
@@ -152,7 +138,6 @@ export default function About() {
                 Keep your audience engaged with professionally planned and scheduled content every week.
               </p>
             </div>
-
           </div>
         </div>
       </section>

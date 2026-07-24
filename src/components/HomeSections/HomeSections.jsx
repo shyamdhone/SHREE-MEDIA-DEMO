@@ -1,19 +1,21 @@
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { FiArrowUpRight, FiBarChart2, FiCode, FiEdit3, FiLayers, FiPlayCircle, FiTarget } from 'react-icons/fi'
+import { FiArrowUpRight, FiBarChart2, FiCode, FiEdit3, FiLayers, FiPlayCircle, FiTarget, FiCheckCircle } from 'react-icons/fi'
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import shree from "../../assets/images/shreeji jewelry.jpg";
 import shiv from "../../assets/images/shivenetra (2).jpg";
 import balaji from "../../assets/images/balaji traders.jpg";
-import vighnaharta from "../../assets/images/vighnaharta.jpg"; // if this is the correct image
+import vighnaharta from "../../assets/images/vighnaharta.jpg";
 import socialMediaImg from "../../assets/images/social.jpg";
 import contentImg from "../../assets/images/content.jpg";
 import reelImg from "../../assets/images/editing.jpg";
 import adsImg from "../../assets/images/ad.jpg";
 import brandingImg from "../../assets/images/brand.jpg";
 import websiteImg from "../../assets/images/web.jpg";
+import ceoImage from "../../assets/images/Bio.jpg";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -93,6 +95,81 @@ export function ClientMarquee() {
   return <section className="overflow-hidden border-y border-black/[0.06] bg-white py-8"><div className="mx-auto flex max-w-[1440px] items-center gap-9 px-4 sm:px-6"><p className="shrink-0 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-muted">Trusted by</p><div className="flex min-w-max animate-[pulse_8s_ease-in-out_infinite] items-center gap-10 sm:gap-16">{[...logos, ...logos].map((logo, index) => <span key={`${logo}-${index}`} className="font-display text-lg font-semibold tracking-[-0.06em] text-black/35 sm:text-xl">{logo}</span>)}</div></div></section>
 }
 
+export function FounderSection() {
+  return (
+    <section className="relative overflow-hidden bg-white px-4 py-24 sm:px-6 sm:py-32 border-b border-black/[0.06]">
+      <div className="mx-auto max-w-[1440px] relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          
+          {/* CEO Image Card */}
+          <div className="relative flex justify-center group">
+            <div className="absolute -inset-4 rounded-[48px] bg-gradient-to-tr from-brand-pink/20 via-brand-red/10 to-brand-orange/20 blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
+            
+            <div className="relative overflow-hidden rounded-[36px] border border-black/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] bg-white p-4 w-full max-w-[480px] flex items-center justify-center">
+              <img
+                src={ceoImage}
+                alt="Founder & Creative Director"
+                className="w-full h-auto max-h-[650px] object-contain rounded-[24px]"
+              />
+            </div>
+          </div>
+
+          {/* Content Section */}
+          <div className="flex flex-col items-start">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/[0.04] border border-black/10 text-ink font-semibold text-sm tracking-wide shadow-sm">
+              <FiCheckCircle size={14} className="text-brand-pink" /> About Us
+            </span>
+
+            <h2 className="font-display text-4xl sm:text-5xl font-semibold mt-6 tracking-tight text-ink leading-[1.15]">
+              Meet the Founder of{" "}
+              <span className="text-gradient">
+                Shrii Media
+              </span>
+            </h2>
+
+            <div className="mt-6">
+              <h3 className="font-display text-2xl font-semibold text-ink">Shrikant Awchar</h3>
+              <p className="text-brand-pink font-medium text-base mt-1">Founder & Creative Director, Shrii Media</p>
+            </div>
+
+            <p className="mt-6 text-muted leading-relaxed text-lg font-normal">
+              At <strong className="text-ink font-semibold">Shrii Media</strong>, we believe every business deserves an exceptional digital presence. Our mission is to transform ideas into impactful brands through modern website development, creative design, branding, social media marketing, and digital innovation.
+            </p>
+
+            <p className="mt-4 text-muted leading-relaxed text-lg font-normal">
+              Under the leadership of our Founder & Creative Director, we strive to deliver premium-quality digital solutions that help businesses establish trust, attract customers, and achieve long-term growth.
+            </p>
+
+            {/* Social Buttons */}
+            <div className="flex flex-wrap gap-4 mt-8">
+              <a
+                href="https://www.instagram.com/shrii_media/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-white font-medium px-6 py-3.5 rounded-xl shadow-lg shadow-purple-500/25"
+              >
+                <FaInstagram size={20} />
+                <span>Instagram</span>
+              </a>
+
+              <a
+                href="https://wa.me/918080275214?text=Hello%20Shrii%20Media,%20I%20visited%20your%20website%20and%20would%20like%20to%20discuss%20a%20project."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 bg-emerald-600 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-white font-medium px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-600/25"
+              >
+                <FaWhatsapp size={20} />
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function ServicesSection() {
   const scope = useRef(null)
   useGSAP(() => {
@@ -117,7 +194,7 @@ return (
           <Heading>
             We handle everything
             <br />
-            you only focus on you bussiness.
+            you only focus on your business.
           </Heading>
         </div>
 

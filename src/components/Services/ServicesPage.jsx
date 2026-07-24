@@ -4,10 +4,34 @@ import {
   FiActivity, FiArrowDown, FiArrowUpRight, FiBarChart2, FiCamera, 
   FiEdit3, FiFeather, FiFilm, FiImage, FiLayers, 
   FiMonitor, FiSearch, FiTarget, FiStar, FiShield, 
-  FiGlobe, FiCheckCircle 
+  FiGlobe, FiCheckCircle, FiTrendingUp, FiHome, FiVideo, FiX 
 } from 'react-icons/fi'
 
+// Import Meta Ads images from local assets folder
+import meta1 from '../../assets/images/meta1.jpg'
+import meta2 from '../../assets/images/meta2.jpg'
+import meta3 from '../../assets/images/meta3.jpg'
+import meta4 from '../../assets/images/meta4.jpg'
+
 const mainOfferings = [
+  { 
+    title: 'Meta Ads Growth Engine', 
+    description: 'We build high-performing Facebook and Instagram advertising systems that generate qualified leads, sales, and measurable ROI using advanced audience targeting, creative testing, conversion tracking, and continuous campaign optimization.', 
+    icon: FiTrendingUp, 
+    badge: 'Meta Certified', 
+    metrics: '8.5x Average ROAS', 
+    isQuadCollage: true,
+    images: {
+      img1: meta1,
+      img2: meta2,
+      img3: meta3,
+      img4: meta4
+    },
+    gradient: 'from-blue-500/10 via-purple-500/10 to-cyan-500/10',
+    borderGradient: 'group-hover:border-blue-500',
+    accentColor: 'text-blue-600',
+    badgeBg: 'bg-blue-600'
+  },
   { 
     title: 'Omnichannel Social Scaling', 
     description: 'Data-backed content ecosystems engineered to capture high-retention audience attention and turn views into loyal brand advocates.', 
@@ -59,6 +83,8 @@ const mainOfferings = [
 ]
 
 const boutiqueServices = [
+  ['Property Shoot & Real Estate', 'High-end architectural photography and cinematic walk-through tours designed to sell luxury listings fast.', FiHome, 'Real Estate', 'from-amber-500/10 to-yellow-500/5', 'hover:border-amber-500'],
+  ['Short-Form Reels Production', 'Viral vertical video creation engineered for maximum hook retention and platform algorithm dominance.', FiVideo, 'Shorts & Reels', 'from-pink-500/10 to-rose-500/5', 'hover:border-pink-500'],
   ['Viral Content Engineering', 'Short-form hooks and loops built to dominate algorithmic feeds.', FiEdit3, 'Engagement', 'from-pink-500/10 to-rose-500/5', 'hover:border-pink-500'],
   ['Commercial Photography', 'Immersive studio photography that elevates product and brand perception.', FiCamera, 'Visuals', 'from-purple-500/10 to-indigo-500/5', 'hover:border-purple-500'],
   ['Brand Videography', 'Story-driven brand films that build deep emotional resonance.', FiImage, 'Narrative', 'from-orange-500/10 to-amber-500/5', 'hover:border-orange-500'],
@@ -120,9 +146,9 @@ const clientFeedback = [
 ]
 
 const frequentlyAsked = [
-  ['What type of businesses do you typically partner with?', 'We partner with ambitious scaling brands, e-commerce leaders, luxury enterprises, and tech companies looking to dominate their market category through modern creative and performance marketing.'],
+  ['What type of businesses do you typically partner with?', 'We partner with ambitious scaling brands, e-commerce leaders, luxury enterprises, real estate developers, and tech companies looking to dominate their market category through modern creative and performance marketing.'],
   ['How fast can we launch our campaigns after onboarding?', 'Our standard onboarding and discovery sprint takes 10 to 14 business days, after which initial content systems and paid media campaigns go live.'],
-  ['Do you handle both creative asset production and media buying?', 'Yes. We provide a fully integrated service model covering everything from high-end video production and design systems to precise media buying and revenue tracking.']
+  ['Do you handle both creative asset production and media buying?', 'Yes. We provide a fully integrated service model covering everything from high-end video production, real estate walkthrough shoots, and design systems to precise media buying and revenue tracking.']
 ]
 
 function SectionHeading({ tag, title, subtitle, centered = false }) {
@@ -141,6 +167,7 @@ function SectionHeading({ tag, title, subtitle, centered = false }) {
 
 export function ServicesPage() {
   const [activeFaq, setActiveFaq] = useState(0)
+  const [selectedImage, setSelectedImage] = useState(null)
 
   return (
     <main className="overflow-hidden bg-white text-slate-900 pt-36 sm:pt-40 selection:bg-pink-500 selection:text-white relative">
@@ -255,16 +282,62 @@ export function ServicesPage() {
               return (
                 <div key={item.title} className={`group relative overflow-hidden rounded-[2.5rem] border border-slate-200 bg-gradient-to-br ${item.gradient} p-8 shadow-lg shadow-slate-900/5 transition-all duration-300 hover:-translate-y-2 ${item.borderGradient} hover:shadow-2xl flex flex-col justify-between`}>
                   
-                  <div className="relative aspect-video rounded-2xl overflow-hidden mb-8 border border-white/60 shadow-md">
-                    <img src={item.poster} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-950/10 to-transparent" />
-                    <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
-                      {item.metrics}
-                    </span>
-                    <span className={`absolute top-4 right-4 ${item.badgeBg} text-white font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-md`}>
-                      {item.badge}
-                    </span>
-                  </div>
+                  {item.isQuadCollage ? (
+                    <div className="relative aspect-video rounded-2xl overflow-hidden mb-8 border border-white/60 shadow-md">
+                      {/* 2x2 Grid for Meta Ads imported images with click-to-enlarge functionality */}
+                      <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-1.5 p-1.5 bg-slate-900">
+                        <div 
+                          onClick={() => setSelectedImage({ src: item.images.img1, title: 'Meta Ad Creative 01' })}
+                          className="relative w-full h-full rounded-xl overflow-hidden shadow cursor-pointer group/img"
+                        >
+                          <img src={item.images.img1} alt="Meta Ad Work 1" className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110" />
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover/img:bg-transparent transition-colors" />
+                          <span className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-md opacity-0 group-hover/img:opacity-100 transition-opacity">Click to Expand</span>
+                        </div>
+                        <div 
+                          onClick={() => setSelectedImage({ src: item.images.img2, title: 'Meta Ad Creative 02' })}
+                          className="relative w-full h-full rounded-xl overflow-hidden shadow cursor-pointer group/img"
+                        >
+                          <img src={item.images.img2} alt="Meta Ad Work 2" className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110" />
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover/img:bg-transparent transition-colors" />
+                          <span className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-md opacity-0 group-hover/img:opacity-100 transition-opacity">Click to Expand</span>
+                        </div>
+                        <div 
+                          onClick={() => setSelectedImage({ src: item.images.img3, title: 'Meta Ad Creative 03' })}
+                          className="relative w-full h-full rounded-xl overflow-hidden shadow cursor-pointer group/img"
+                        >
+                          <img src={item.images.img3} alt="Meta Ad Work 3" className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110" />
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover/img:bg-transparent transition-colors" />
+                          <span className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-md opacity-0 group-hover/img:opacity-100 transition-opacity">Click to Expand</span>
+                        </div>
+                        <div 
+                          onClick={() => setSelectedImage({ src: item.images.img4, title: 'Meta Ad Creative 04' })}
+                          className="relative w-full h-full rounded-xl overflow-hidden shadow cursor-pointer group/img"
+                        >
+                          <img src={item.images.img4} alt="Meta Ad Work 4" className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110" />
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover/img:bg-transparent transition-colors" />
+                          <span className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9px] px-2 py-0.5 rounded-md opacity-0 group-hover/img:opacity-100 transition-opacity">Click to Expand</span>
+                        </div>
+                      </div>
+                      <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm z-10 pointer-events-none">
+                        {item.metrics}
+                      </span>
+                      <span className={`absolute top-4 right-4 ${item.badgeBg} text-white font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-md z-10 pointer-events-none`}>
+                        {item.badge}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="relative aspect-video rounded-2xl overflow-hidden mb-8 border border-white/60 shadow-md">
+                      <img src={item.poster} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-950/10 to-transparent" />
+                      <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                        {item.metrics}
+                      </span>
+                      <span className={`absolute top-4 right-4 ${item.badgeBg} text-white font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-md`}>
+                        {item.badge}
+                      </span>
+                    </div>
+                  )}
 
                   <div>
                     <div className="flex items-center justify-between mb-6">
@@ -289,17 +362,19 @@ export function ServicesPage() {
           </div>
 
           {/* Boutique Capabilities Grid */}
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {boutiqueServices.map(([name, desc, Icon, tag, gradClass, hoverBorder]) => (
-              <div key={name} className={`rounded-[2rem] border border-slate-200 bg-gradient-to-br ${gradClass} p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${hoverBorder} hover:shadow-xl hover:bg-white`}>
-                <div className="flex items-center justify-between">
-                  <span className="grid size-12 place-items-center rounded-xl bg-white text-pink-600 shadow-md border border-slate-200">
-                    <Icon className="text-lg" />
-                  </span>
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-700 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-slate-200 shadow-sm">{tag}</span>
+              <div key={name} className={`rounded-[2rem] border border-slate-200 bg-gradient-to-br ${gradClass} p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 ${hoverBorder} hover:shadow-xl hover:bg-white flex flex-col justify-between`}>
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="grid size-12 place-items-center rounded-xl bg-white text-pink-600 shadow-md border border-slate-200">
+                      <Icon className="text-lg" />
+                    </span>
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-700 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full border border-slate-200 shadow-sm">{tag}</span>
+                  </div>
+                  <h3 className="mt-6 font-display text-xl font-bold text-slate-900 tracking-tight">{name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
                 </div>
-                <h3 className="mt-6 font-display text-xl font-bold text-slate-900 tracking-tight">{name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
               </div>
             ))}
           </div>
@@ -442,25 +517,54 @@ export function ServicesPage() {
         <div className="mx-auto max-w-[1440px]">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-pink-600 via-purple-600 to-orange-500 p-10 sm:p-16 text-center text-white shadow-2xl shadow-pink-500/20">
             <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <span className="inline-block mb-3 px-4 py-1.5 rounded-full text-[0.65rem] font-extrabold uppercase tracking-[0.2em] bg-white/20 text-white backdrop-blur-md border border-white/20">
-                Accelerate Today
+            <div className="relative z-10">
+              <span className="inline-block mb-4 px-4 py-1.5 rounded-full text-[0.65rem] font-extrabold uppercase tracking-[0.2em] bg-white/10 text-white border border-white/20 backdrop-blur-md">
+                Ready to Scale?
               </span>
-              <h2 className="font-display text-3xl font-black tracking-tight sm:text-5xl">
-                Ready to scale your brand to new heights?
+              <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-5xl text-white leading-tight">
+                Let's engineer your next phase of growth.
               </h2>
-              <p className="mt-4 text-base sm:text-lg text-white/90 leading-relaxed">
-                Book a confidential strategy call with our leadership team today and discover how our integrated growth engine can transform your revenue.
+              <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed text-white/90">
+                Book a free discovery session with our strategists to map out a custom growth framework tailored specifically to your brand.
               </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <Link to="/contact" className="inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm font-bold text-slate-900 shadow-xl transition hover:scale-105">
-                  Book Strategy Call <FiArrowUpRight className="text-lg text-pink-600" />
+              <div className="mt-8 flex flex-wrap gap-4 justify-center">
+                <Link to="/contact" className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm font-bold text-slate-900 shadow-xl transition hover:scale-105">
+                  Schedule Your Call <FiArrowUpRight className="text-lg text-pink-600 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* EXPANDED IMAGE MODAL / LIGHTBOX OVERLAY */}
+      {selectedImage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fadeIn">
+          <div className="relative max-w-4xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/20 p-4 sm:p-6 flex flex-col items-center">
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 z-10 grid size-10 place-items-center rounded-full bg-slate-100 text-slate-900 hover:bg-pink-600 hover:text-white transition shadow-md"
+            >
+              <FiX className="text-xl" />
+            </button>
+            <div className="mb-4 w-full text-left">
+              <span className="text-xs uppercase font-extrabold tracking-widest bg-pink-500/10 text-pink-600 px-3 py-1 rounded-full">Live Meta Work Preview</span>
+              <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-2">{selectedImage.title}</h3>
+            </div>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-inner bg-slate-900 border border-slate-200">
+              <img src={selectedImage.src} alt={selectedImage.title} className="w-full h-full object-contain" />
+            </div>
+            <div className="mt-6 flex justify-end w-full">
+              <button 
+                onClick={() => setSelectedImage(null)}
+                className="rounded-full bg-slate-900 px-6 py-2.5 text-sm font-bold text-white shadow-md hover:bg-pink-600 transition"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </main>
   )

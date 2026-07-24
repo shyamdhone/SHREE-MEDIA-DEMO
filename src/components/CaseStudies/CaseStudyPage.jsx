@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { FiArrowLeft, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiInstagram, FiStar, FiX } from 'react-icons/fi'
+import { FiArrowLeft, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiInstagram, FiStar, FiX, FiExternalLink } from 'react-icons/fi'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -9,6 +9,7 @@ import shiv from "../../assets/images/shivenetra (2).jpg"
 import balaji from "../../assets/images/balaji traders.jpg"
 import vighnaharta from "../../assets/images/vighnaharta.jpg"
 import shreeHero from "../../assets/images/heroImage.jpg"
+import ashokImage from "../../assets/images/ashokjadeandsons.jpg"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -40,36 +41,48 @@ const projects = {
     testimonial: "The creative overhaul completely skyrocketed our digital presence. We went from being just another local jeweler to a vibrant luxury name recognized across regions!",
     person: "Shreeji Jewellery Management",
     role: "Founding Partner",
-    related: ["Shivenetra Opticals", "Balaji Traders", "Vighnaharta"],
-    gallery: [shree, shiv, balaji, vighnaharta],
+    related: [
+      { name: "Ashok Jade & Sones", instaUrl: "https://www.instagram.com/ashok_jade_and_sons/" },
+      { name: "Shivenetra Opticals", instaUrl: "https://www.instagram.com/shivnetra_optical_buldhana_02/" },
+      { name: "Balaji Traders", instaUrl: "https://www.instagram.com/balaji_traders_sultanpur?igsh=YnYwZDhxZGlsc2Jz" }
+    ],
+    gallery: [shree, shiv, balaji, vighnaharta, ashokImage],
     allWorks: [
+      {
+        title: "Ashok Jade & Sones",
+        subtitle: "Legacy craftsmanship meets modern digital curation & high-end showcase",
+        image: ashokImage,
+        tag: "Heritage & Luxury",
+        stats: "3.5X Engagement",
+        instaUrl: "https://www.instagram.com/ashok_jade_and_sons/",
+        description: "Revamped the digital narrative for this esteemed legacy brand, integrating modern aesthetic principles with timeless cultural elegance."
+      },
       {
         title: "Shreeji Luxury Campaign",
         subtitle: "High-end gold & diamond showcase reel engineering",
         image: shree,
         tag: "Branding & Social",
-        stats: "+280% Revenue"
+        stats: "+280% Revenue",
+        instaUrl: "https://instagram.com",
+        description: "Engineered a complete visual pivot focusing on high-contrast storytelling, driving massive customer acquisition across regional markets."
       },
       {
         title: "Shivnetra Optical Launch",
         subtitle: "Viral frames showcase with cinematic product photography",
         image: shiv,
         tag: "Content Creation",
-        stats: "3.8M Views"
+        stats: "3.8M Views",
+        instaUrl: "https://www.instagram.com/shivnetra_optical_buldhana_02/",
+        description: "Produced high-energy reels and lifestyle product framing that captured Gen-Z aesthetics, crossing millions of organic views."
       },
       {
         title: "Balaji Traders Flagship",
         subtitle: "Complete enterprise identity and responsive web architecture",
         image: balaji,
         tag: "Websites & Brand",
-        stats: "2.5X Sales"
-      },
-      {
-        title: "Vighnaharta Retail Sprint",
-        subtitle: "Engaging festive reels design and high-converting ad copies",
-        image: vighnaharta,
-        tag: "Social Media",
-        stats: "1M+ Reach"
+        stats: "2.5X Sales",
+        instaUrl: "https://www.instagram.com/balaji_traders_sultanpur?igsh=YnYwZDhxZGlsc2Jz",
+        description: "Redesigned digital touchpoints and deployed streamlined web architecture to multiply inbound wholesale inquiries."
       }
     ]
   }
@@ -107,11 +120,10 @@ function Metric({ value, label }) {
 }
 
 function OurWorksSection({ project }) {
-  const [activeImage, setActiveImage] = useState(null)
+  const [expandedIndex, setExpandedIndex] = useState(null)
 
   return (
     <section className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-24 sm:px-6 sm:py-32 relative overflow-hidden">
-      {/* Decorative colored lights */}
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-pink-500/20 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-amber-500/20 blur-[120px] pointer-events-none" />
 
@@ -124,72 +136,84 @@ function OurWorksSection({ project }) {
             Our Featured <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-amber-400 bg-clip-text text-transparent">Masterpieces</span>
           </h2>
           <p className="mt-4 text-slate-300 text-sm sm:text-base">
-            Explore the exact visual assets, campaigns, and high-performance branding deliverables created during this partnership.
+            Click any project card to inspect deep deliverables, campaign metrics, and access direct Instagram links.
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
-          {project.allWorks.map((work, index) => (
-            <div
-              key={index}
-              onClick={() => setActiveImage(work.image)}
-              className="group relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-4 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/10 cursor-pointer"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem]">
-                <img
-                  src={work.image}
-                  alt={work.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition duration-500" />
-                
-                <span className="absolute top-4 left-4 rounded-full bg-pink-600 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white shadow-md">
-                  {work.tag}
-                </span>
+          {project.allWorks.map((work, index) => {
+            const isExpanded = expandedIndex === index
+            return (
+              <div
+                key={index}
+                onClick={() => setExpandedIndex(isExpanded ? null : index)}
+                className={`group relative overflow-hidden rounded-[2.5rem] border transition-all duration-500 cursor-pointer backdrop-blur-xl ${
+                  isExpanded 
+                    ? 'bg-white/10 border-pink-500 shadow-2xl shadow-pink-500/20 ring-2 ring-pink-500/50' 
+                    : 'bg-white/5 border-white/10 hover:-translate-y-2 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/10'
+                } p-4 sm:p-6`}
+              >
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem]">
+                  <img
+                    src={work.image}
+                    alt={work.title}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition duration-500" />
+                  
+                  <span className="absolute top-4 left-4 rounded-full bg-pink-600 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white shadow-md">
+                    {work.tag}
+                  </span>
 
-                <span className="absolute top-4 right-4 rounded-full bg-white/20 backdrop-blur-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white border border-white/30">
-                  {work.stats}
-                </span>
+                  <span className="absolute top-4 right-4 rounded-full bg-white/20 backdrop-blur-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white border border-white/30">
+                    {work.stats}
+                  </span>
 
-                <span className="absolute bottom-4 right-4 grid size-12 place-items-center rounded-full bg-white text-slate-900 shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-y-0 translate-y-2">
-                  <FiArrowUpRight className="text-xl" />
-                </span>
+                  <span className="absolute bottom-4 right-4 grid size-12 place-items-center rounded-full bg-white text-slate-900 shadow-xl opacity-90 transition-all duration-300 group-hover:scale-110">
+                    <FiArrowUpRight className={`text-xl transition-transform duration-300 ${isExpanded ? 'rotate-45' : ''}`} />
+                  </span>
+                </div>
+
+                <div className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-display text-2xl font-bold text-white group-hover:text-pink-400 transition-colors">
+                      {work.title}
+                    </h3>
+                    <span className="text-xs font-semibold text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20">
+                      {isExpanded ? 'Close Details' : 'View In-Card'}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-slate-300 font-medium">
+                    {work.subtitle}
+                  </p>
+
+                  {/* Expandable In-Card Content */}
+                  {isExpanded && (
+                    <div className="mt-6 pt-6 border-t border-white/10 animate-fadeIn" onClick={(e) => e.stopPropagation()}>
+                      <p className="text-sm text-slate-200 leading-relaxed font-normal mb-6">
+                        {work.description}
+                      </p>
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                          Live Social Artifact
+                        </span>
+                        <a
+                          href={work.instaUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 px-5 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-lg transition hover:scale-105"
+                        >
+                          <FiInstagram className="text-base" /> View on Instagram <FiExternalLink />
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <div className="p-6">
-                <h3 className="font-display text-2xl font-bold text-white group-hover:text-pink-400 transition-colors">
-                  {work.title}
-                </h3>
-                <p className="mt-2 text-sm text-slate-300 font-medium">
-                  {work.subtitle}
-                </p>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
-
-      {/* Lightbox Modal */}
-      {activeImage && (
-        <div
-          className="fixed inset-0 z-[80] grid place-items-center bg-slate-950/80 p-4 backdrop-blur-md"
-          onClick={() => setActiveImage(null)}
-        >
-          <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setActiveImage(null)}
-              className="absolute -top-12 right-0 grid size-10 place-items-center rounded-full bg-white text-slate-900 shadow-xl hover:bg-pink-600 hover:text-white transition"
-            >
-              <FiX className="text-xl" />
-            </button>
-            <img
-              src={activeImage}
-              alt="Enlarged preview"
-              className="max-h-[85vh] max-w-[90vw] rounded-3xl object-contain shadow-2xl border border-white/20"
-            />
-          </div>
-        </div>
-      )}
     </section>
   )
 }
@@ -463,7 +487,7 @@ export function CaseStudyPage() {
         </div>
       </section>
 
-      {/* OUR WORKS SECTION (NEWLY ADDED WITH 4 IMAGES) */}
+      {/* OUR WORKS SECTION WITH IN-CARD ACCORDIONS & INSTAGRAM LINKS */}
       <OurWorksSection project={project} />
 
       {/* DASHBOARD ANALYTICS */}
@@ -491,20 +515,26 @@ export function CaseStudyPage() {
         </div>
       </section>
 
-      {/* RELATED PROJECTS */}
+      {/* RELATED PROJECTS WITH INSTAGRAM DIRECT LINKS */}
       <section className="bg-slate-50 px-4 py-24 sm:px-6">
         <div className="mx-auto max-w-[1440px]">
           <SectionIntro eyebrow="Explore More" title="More brands engineered for success." />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {project.related.map((name, index) => (
-              <Link key={name} to="/work" className="group block">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-lg border border-slate-200">
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-600/30 via-purple-600/20 to-amber-500/30 transition duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 grid place-items-center p-6 text-center">
-                    <h3 className="font-display text-3xl font-black text-white tracking-tight">{name}</h3>
-                  </div>
+            {project.related.map((rel, index) => (
+              <div key={rel.name} className="group relative aspect-[16/10] overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-lg border border-slate-200">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-600/30 via-purple-600/20 to-amber-500/30 transition duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                  <h3 className="font-display text-3xl font-black text-white tracking-tight">{rel.name}</h3>
+                  <a
+                    href={rel.instaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-5 py-2 text-xs font-bold uppercase tracking-wider text-white border border-white/30 transition hover:bg-pink-600 hover:border-pink-600"
+                  >
+                    <FiInstagram /> View Profile
+                  </a>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
