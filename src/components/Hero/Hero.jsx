@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import ceoImage from "../../assets/images/Bio.jpg";
 import { 
   FiArrowDown, 
@@ -325,6 +325,7 @@ function ServicesSection() {
 
 export function Hero() {
   const scope = useRef(null)
+  const navigate = useNavigate()
 
   useGSAP(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -336,21 +337,17 @@ export function Hero() {
       .from('[data-proof]', { autoAlpha: 0, y: 12, duration: 0.45, stagger: 0.08 }, '-=0.25')
       .from('[data-visual]', { autoAlpha: 0, scale: 0.92, duration: 1.1 }, '-=0.85')
 
-    // Desktop only scroll snapping between sections (Removed route redirection completely)
     const isDesktop = window.innerWidth >= 1024
 
+    // Moved ScrollTrigger boundary trigger to wrap the entire main container block (bottom of ServicesSection)
     if (isDesktop && !reduceMotion) {
       ScrollTrigger.create({
-        trigger: scope.current,
-        start: 'top top',
+        trigger: '#main-flow-container',
+        start: 'bottom bottom',
         end: 'bottom top',
-        pin: true,
-        pinSpacing: false,
-        snap: {
-          snapTo: 1,
-          duration: { min: 0.2, max: 0.8 },
-          delay: 0.1,
-          ease: 'power3.inOut'
+        onLeave: () => {
+          // Triggers only when scrolling past the very bottom of the third section (Services)
+          navigate('/services')
         }
       })
     }
@@ -406,7 +403,7 @@ export function Hero() {
   }, { scope })
 
   return (
-    <>
+    <div id="main-flow-container">
       <section ref={scope} aria-labelledby="hero-title" className="relative isolate min-h-screen overflow-hidden bg-white px-4 pb-24 pt-28 sm:px-6 lg:flex lg:items-center lg:pb-20 lg:pt-28">
         <div data-blob aria-hidden="true" className="absolute -left-32 top-1/4 -z-10 size-72 sm:size-80 rounded-full bg-brand-pink/[0.06] blur-3xl" />
         <div data-blob aria-hidden="true" className="absolute -right-24 top-8 -z-10 size-80 sm:size-96 rounded-full bg-brand-gold/[0.08] blur-3xl" />
@@ -449,6 +446,6 @@ export function Hero() {
 
       <FounderSection />
       <ServicesSection />
-    </>
+    </div>
   )
 }

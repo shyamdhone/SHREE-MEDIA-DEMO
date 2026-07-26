@@ -68,18 +68,7 @@ const mainOfferings = [
     accentColor: 'text-violet-600',
     badgeBg: 'bg-violet-600'
   },
-  { 
-    title: 'Enterprise Brand Architecture', 
-    description: 'Distinctive visual identities, design systems, and positioning frameworks that make your business impossible to ignore.', 
-    icon: FiFeather, 
-    badge: 'Exclusive', 
-    metrics: 'Unmatched Recall', 
-    poster: 'https://images.unsplash.com/photo-1542744094-3a312433c4d0?auto=format&fit=crop&w=1200&q=80',
-    gradient: 'from-emerald-500/10 via-teal-500/10 to-cyan-500/10',
-    borderGradient: 'group-hover:border-emerald-500',
-    accentColor: 'text-emerald-600',
-    badgeBg: 'bg-emerald-600'
-  },
+
 ]
 
 const boutiqueServices = [

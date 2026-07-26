@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { FiArrowUpRight, FiMenu, FiX, FiInstagram, FiMessageCircle, FiLinkedin, FiMail } from 'react-icons/fi'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -16,10 +16,10 @@ const navigation = [
 ]
 
 const socialLinks = [
-  { icon: <FiInstagram className="text-lg" />, href: "https://www.instagram.com/shrii_media/", label: "Instagram" },
-  { icon: <FiMessageCircle className="text-lg" />, href: "https://wa.me/918080275214", label: "WhatsApp" },
-  { icon: <FiLinkedin className="text-lg" />, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: <FiMail className="text-lg" />, href: "mailto:contact@shriimedia.com", label: "Email" },
+  { icon: <FiInstagram className="text-base sm:text-lg" />, href: "https://www.instagram.com/shrii_media/", label: "Instagram" },
+  { icon: <FiMessageCircle className="text-base sm:text-lg" />, href: "https://wa.me/918080275214", label: "WhatsApp" },
+  { icon: <FiLinkedin className="text-base sm:text-lg" />, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: <FiMail className="text-base sm:text-lg" />, href: "mailto:contact@shriimedia.com", label: "Email" },
 ]
 
 function BrandMark({ className = "" }) {
@@ -28,38 +28,9 @@ function BrandMark({ className = "" }) {
       <img
         src={logo}
         alt="Shrii Media Logo"
-        className="h-12 sm:h-14 lg:h-16 w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+        className="h-10 sm:h-12 lg:h-16 w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105"
       />
     </div>
-  )
-}
-
-function NavigationLink({ item, mobile = false, onNavigate }) {
-  return (
-    <NavLink 
-      end={item.to === '/'} 
-      onClick={onNavigate} 
-      to={item.to} 
-      className={({ isActive }) => `
-        group relative inline-flex items-center font-display font-medium tracking-tight transition-all duration-300
-        ${mobile ? 'py-1 text-3xl sm:text-4xl lg:text-[46px]' : 'py-2 px-3 lg:px-4 text-[0.82rem] xl:text-[0.88rem] rounded-full'}
-        ${!mobile && isActive ? 'bg-black/[0.04] text-ink shadow-sm' : ''}
-        ${!mobile && !isActive ? 'text-muted hover:text-ink hover:bg-black/[0.02]' : ''}
-        ${mobile && isActive ? 'text-brand-pink font-semibold' : ''}
-        ${mobile && !isActive ? 'text-ink/90 hover:text-brand-pink' : ''}
-      `}
-    >
-      {({ isActive }) => (
-        <>
-          <span className="relative z-10 transition-all duration-300 group-hover:translate-x-2">
-            {item.label}
-          </span>
-          {!mobile && (
-            <span className={`absolute inset-x-3 bottom-1.5 h-px bg-gradient-to-r from-brand-pink via-brand-red to-brand-orange transition-transform duration-500 ease-out origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
-          )}
-        </>
-      )}
-    </NavLink>
   )
 }
 
@@ -68,8 +39,10 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const scope = useRef(null)
   const menuPanel = useRef(null)
+  const backdropRef = useRef(null)
   const ctaButtonRef = useRef(null)
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 30)
@@ -78,11 +51,29 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => { setIsMenuOpen(false) }, [location.pathname])
+  useEffect(() => { 
+    setIsMenuOpen(false) 
+  }, [location.pathname])
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { 
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isMenuOpen])
 
   // Desktop Navbar Entrance & Magnetic Button Effect
@@ -115,51 +106,55 @@ export function Navbar() {
     }
   }, { scope })
 
-  // Fullscreen Luxury Mobile Menu Animation Timeline with explicit visibility fixes
+  // Fixed Sliding Side Drawer Animation Controller
   useGSAP(() => {
-    if (!menuPanel.current) return undefined
-    const menuItems = menuPanel.current.querySelectorAll('[data-mobile-link]')
-    const mobileElements = menuPanel.current.querySelectorAll('[data-mobile-animate]')
+    const panel = menuPanel.current
+    const backdrop = backdropRef.current
+    if (!panel || !backdrop) return
+
+    const menuItems = panel.querySelectorAll('[data-mobile-link]')
+    const mobileElements = panel.querySelectorAll('[data-mobile-animate]')
+
+    gsap.killTweensOf(panel)
+    gsap.killTweensOf(backdrop)
+    gsap.killTweensOf(menuItems)
+    gsap.killTweensOf(mobileElements)
 
     if (isMenuOpen) {
-      gsap.set(menuPanel.current, { display: 'flex', pointerEvents: 'auto' })
       const tl = gsap.timeline()
-      tl.fromTo(menuPanel.current, 
-        { opacity: 0, scale: 0.98, yPercent: -100 }, 
-        { opacity: 1, scale: 1, yPercent: 0, duration: 0.75, ease: 'power4.inOut' }
-      )
+      tl.to(backdrop, { autoAlpha: 1, duration: 0.3, ease: 'power2.out' })
+      .to(panel, { x: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
       .fromTo(menuItems, 
-        { autoAlpha: 0, y: 30, skewY: 3 }, 
-        { autoAlpha: 1, y: 0, skewY: 0, duration: 0.5, stagger: 0.04, ease: 'power3.out' }, 
-        '-=0.4'
+        { autoAlpha: 0, x: 20 }, 
+        { autoAlpha: 1, x: 0, duration: 0.4, stagger: 0.03, ease: 'power3.out' }, 
+        '-=0.3'
       )
       .fromTo(mobileElements, 
         { autoAlpha: 0, y: 15 }, 
-        { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power3.out' }, 
-        '-=0.35'
+        { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.04, ease: 'power3.out' }, 
+        '-=0.25'
       )
-      return undefined
+    } else {
+      const tl = gsap.timeline()
+      tl.to(panel, { x: '100%', duration: 0.4, ease: 'power3.inOut' })
+      .to(backdrop, { autoAlpha: 0, duration: 0.3, ease: 'power2.in' }, '-=0.2')
     }
-
-    if (gsap.getProperty(menuPanel.current, 'display') !== 'none') {
-      gsap.to(menuPanel.current, { 
-        opacity: 0, 
-        scale: 0.98, 
-        yPercent: -100, 
-        duration: 0.5, 
-        ease: 'power3.inOut', 
-        onComplete: () => gsap.set(menuPanel.current, { display: 'none', pointerEvents: 'none' }) 
-      })
-    }
-    return undefined
   }, { dependencies: [isMenuOpen], scope })
 
+  const handleMobileNavigate = (e, to) => {
+    e.preventDefault()
+    setIsMenuOpen(false)
+    setTimeout(() => {
+      navigate(to)
+    }, 350)
+  }
+
   return (
-    <header ref={scope} className="pointer-events-auto fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-8 sm:pt-6">
+    <header ref={scope} className="pointer-events-auto fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 sm:pt-5 lg:px-8 lg:pt-6">
       <nav 
         data-navbar-shell 
         aria-label="Primary navigation" 
-        className={`mx-auto flex max-w-[1440px] items-center justify-between rounded-full px-6 py-3.5 transition-all duration-700 sm:px-8 lg:py-4 ${
+        className={`mx-auto flex max-w-[1440px] items-center justify-between rounded-full px-4 py-3 transition-all duration-700 sm:px-6 sm:py-3.5 lg:px-8 lg:py-4 ${
           isScrolled 
             ? 'border border-white/85 bg-white/75 shadow-[0_20px_50px_rgba(17,17,17,0.12)] backdrop-blur-3xl scale-[0.98]' 
             : 'border border-black/[0.06] bg-white/50 shadow-[0_10px_30px_rgba(17,17,17,0.04)] backdrop-blur-2xl'
@@ -169,14 +164,31 @@ export function Navbar() {
           <BrandMark />
         </NavLink>
 
+        {/* Desktop Links */}
         <div className="hidden items-center gap-2 xl:gap-3 lg:flex" data-nav-item>
           {navigation.map((item) => (
-            <span key={item.to}>
-              <NavigationLink item={item} />
-            </span>
+            <NavLink 
+              key={item.to}
+              end={item.to === '/'} 
+              to={item.to} 
+              className={({ isActive }) => `
+                group relative inline-flex items-center font-display font-medium tracking-tight transition-all duration-300 py-2 px-3 lg:px-4 text-[0.82rem] xl:text-[0.88rem] rounded-full
+                ${isActive ? 'bg-black/[0.04] text-ink shadow-sm' : 'text-muted hover:text-ink hover:bg-black/[0.02]'}
+              `}
+            >
+              {({ isActive }) => (
+                <>
+                  <span className="relative z-10 transition-all duration-300 group-hover:translate-x-2">
+                    {item.label}
+                  </span>
+                  <span className={`absolute inset-x-3 bottom-1.5 h-px bg-gradient-to-r from-brand-pink via-brand-red to-brand-orange transition-transform duration-500 ease-out origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
+                </>
+              )}
+            </NavLink>
           ))}
         </div>
 
+        {/* Desktop CTA */}
         <div className="hidden lg:block" data-nav-item ref={ctaButtonRef}>
           <NavLink 
             to="/contact" 
@@ -190,65 +202,86 @@ export function Navbar() {
           </NavLink>
         </div>
 
+        {/* Hamburger Menu Toggle */}
         <button 
           type="button" 
           aria-label="Open navigation menu" 
           aria-expanded={isMenuOpen} 
           onClick={() => setIsMenuOpen(true)} 
-          className="grid size-12 place-items-center rounded-full border border-black/10 bg-white/90 text-ink backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:bg-white lg:hidden shadow-sm cursor-pointer"
+          className="relative z-[210] grid size-10 sm:size-12 place-items-center rounded-full border border-black/10 bg-white/95 text-ink backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:bg-white lg:hidden shadow-sm cursor-pointer"
         >
-          <FiMenu className="text-2xl" />
+          <FiMenu className="text-xl sm:text-2xl pointer-events-none" />
         </button>
       </nav>
 
-      {/* Luxury Fullscreen Mobile Navigation Drawer */}
+      {/* Backdrop Overlay */}
+      <div 
+        ref={backdropRef}
+        onClick={() => setIsMenuOpen(false)}
+        className="fixed inset-0 z-[190] bg-black/40 backdrop-blur-sm opacity-0 invisible"
+      />
+
+      {/* Corrected Sliding Side Navigation Drawer */}
       <div 
         ref={menuPanel} 
         role="dialog" 
         aria-modal="true" 
         aria-label="Mobile navigation" 
-        className="fixed inset-0 z-[100] hidden min-h-[100dvh] flex-col justify-between bg-white px-6 pb-6 pt-5 sm:px-12 sm:pb-8 sm:pt-6 backdrop-blur-3xl overflow-y-auto" 
-        style={{ transform: 'translateY(-100%)', display: 'none' }}
+        className="fixed top-0 right-0 bottom-0 z-[200] flex w-full max-w-[320px] flex-col justify-between bg-white px-6 py-6 sm:px-8 sm:py-8 shadow-2xl overflow-y-auto"
+        style={{ transform: 'translateX(100%)' }}
       >
+        {/* Drawer Header */}
         <div data-mobile-animate className="flex items-center justify-between border-b border-black/[0.08] pb-4 shrink-0">
-          <NavLink aria-label="Shrii Media home" to="/" onClick={() => setIsMenuOpen(false)}>
-            <BrandMark />
-          </NavLink>
+          <span className="font-display text-xs font-bold tracking-widest text-muted uppercase">Navigation</span>
           <button 
             type="button" 
             aria-label="Close navigation menu" 
             onClick={() => setIsMenuOpen(false)} 
-            className="grid size-12 sm:size-14 place-items-center rounded-full border border-black/10 bg-zinc-100 text-ink transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+            className="grid size-10 sm:size-11 place-items-center rounded-full border border-black/10 bg-zinc-100 text-ink transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
           >
-            <FiX className="text-2xl" />
+            <FiX className="text-xl pointer-events-none" />
           </button>
         </div>
 
-        <div className="flex flex-col items-start gap-1.5 py-4 my-auto">
+        {/* Drawer Navigation Links */}
+        <div className="flex flex-col items-start gap-3 py-6 my-auto w-full">
           {navigation.map((item) => (
-            <div key={item.to} data-mobile-link className="overflow-hidden">
-              <NavigationLink item={item} mobile onNavigate={() => setIsMenuOpen(false)} />
+            <div key={item.to} data-mobile-link className="w-full overflow-hidden">
+              <NavLink 
+                end={item.to === '/'}
+                to={item.to}
+                onClick={(e) => handleMobileNavigate(e, item.to)}
+                className={({ isActive }) => `
+                  group relative flex items-center justify-between w-full font-display font-medium tracking-tight transition-all duration-300 py-2 text-xl sm:text-2xl
+                  ${isActive ? 'text-brand-pink font-semibold' : 'text-ink/90 hover:text-brand-pink'}
+                `}
+              >
+                <span className="relative z-10 transition-all duration-300 group-hover:translate-x-2">
+                  {item.label}
+                </span>
+                <FiArrowUpRight className="text-lg opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+              </NavLink>
             </div>
           ))}
         </div>
 
+        {/* Drawer Footer CTA & Socials */}
         <div className="space-y-4 pt-4 border-t border-black/[0.08] shrink-0">
           <div data-mobile-animate>
             <NavLink 
-              data-mobile-cta 
-              onClick={() => setIsMenuOpen(false)} 
+              onClick={(e) => handleMobileNavigate(e, '/contact')} 
               to="/contact" 
-              className="flex items-center justify-between rounded-3xl bg-gradient-to-r from-brand-pink via-brand-red to-brand-orange px-6 py-4 font-display text-base sm:text-lg font-semibold tracking-tight text-white shadow-[0_16px_35px_rgba(255,0,110,0.28)] transition-transform duration-300 active:scale-[0.98]"
+              className="flex items-center justify-between rounded-2xl bg-gradient-to-r from-brand-pink via-brand-red to-brand-orange px-5 py-3.5 font-display text-sm font-semibold tracking-tight text-white shadow-[0_12px_25px_rgba(255,0,110,0.25)] transition-transform duration-300 active:scale-[0.98]"
             >
-              <span>Book Free Strategy Call</span>
-              <span className="grid size-9 place-items-center rounded-full bg-white/20">
-                <FiArrowUpRight className="text-lg" />
+              <span>Book Strategy Call</span>
+              <span className="grid size-8 place-items-center rounded-full bg-white/25">
+                <FiArrowUpRight className="text-base pointer-events-none" />
               </span>
             </NavLink>
           </div>
 
           <div data-mobile-animate className="flex items-center justify-between pt-1">
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2">
               {socialLinks.map((social, idx) => (
                 <a
                   key={idx}
@@ -256,7 +289,7 @@ export function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="grid size-10 place-items-center rounded-full border border-black/10 bg-zinc-50 text-ink transition-all duration-300 hover:border-brand-pink hover:bg-brand-pink hover:text-white"
+                  className="grid size-9 place-items-center rounded-full border border-black/10 bg-zinc-50 text-ink transition-all duration-300 hover:border-brand-pink hover:bg-brand-pink hover:text-white"
                 >
                   {social.icon}
                 </a>
@@ -264,8 +297,7 @@ export function Navbar() {
             </div>
 
             <div className="text-right">
-              <p className="font-display text-[0.7rem] font-bold text-ink tracking-tight">© 2026 Shrii Media</p>
-              <p className="text-[0.55rem] font-medium text-muted uppercase tracking-widest mt-0.5">Creating Digital Experiences</p>
+              <p className="font-display text-[0.65rem] font-bold text-ink tracking-tight">© 2026 Shrii Media</p>
             </div>
           </div>
         </div>

@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { FiArrowLeft, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiInstagram, FiStar, FiX, FiExternalLink } from 'react-icons/fi'
+import { FiArrowLeft, FiArrowUpRight, FiChevronLeft, FiChevronRight, FiInstagram, FiStar, FiExternalLink } from 'react-icons/fi'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import shree from "../../assets/images/shreeji jewelry.jpg"
-import shiv from "../../assets/images/shivenetra (2).jpg"
-import balaji from "../../assets/images/balaji traders.jpg"
-import vighnaharta from "../../assets/images/vighnaharta.jpg"
+import shree from "../../assets/images/shree.jpg"
+import shiv from "../../assets/images/mauli.jpg"
+import balaji from "../../assets/images/balaji.jpg"
+import vighnaharta from "../../assets/images/mauli.jpg"
 import shreeHero from "../../assets/images/heroImage.jpg"
-import ashokImage from "../../assets/images/ashokjadeandsons.jpg"
+import ashokImage from "../../assets/images/ashokj.jpg"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -42,9 +42,9 @@ const projects = {
     person: "Shreeji Jewellery Management",
     role: "Founding Partner",
     related: [
-      { name: "Ashok Jade & Sones", instaUrl: "https://www.instagram.com/ashok_jade_and_sons/" },
-      { name: "Shivenetra Opticals", instaUrl: "https://www.instagram.com/shivnetra_optical_buldhana_02/" },
-      { name: "Balaji Traders", instaUrl: "https://www.instagram.com/balaji_traders_sultanpur?igsh=YnYwZDhxZGlsc2Jz" }
+      { name: "Ashok Jade & Sones", instaUrl: "https://www.instagram.com/ashok_jade_and_sons/", image: ashokImage },
+      { name: "Mauli kendra", instaUrl: "https://www.instagram.com/maulikrupa_mandapshilai_kendra/", image: shiv },
+      { name: "Balaji Traders", instaUrl: "https://www.instagram.com/balaji_traders_sultanpur?igsh=YnYwZDhxZGlsc2Jz", image: balaji }
     ],
     gallery: [shree, shiv, balaji, vighnaharta, ashokImage],
     allWorks: [
@@ -63,16 +63,16 @@ const projects = {
         image: shree,
         tag: "Branding & Social",
         stats: "+280% Revenue",
-        instaUrl: "https://instagram.com",
+        instaUrl: "https://www.instagram.com/shreeji__jewellers_lonar/",
         description: "Engineered a complete visual pivot focusing on high-contrast storytelling, driving massive customer acquisition across regional markets."
       },
       {
-        title: "Shivnetra Optical Launch",
+        title: "maulikrupa_mandapshilai_kendra",
         subtitle: "Viral frames showcase with cinematic product photography",
         image: shiv,
         tag: "Content Creation",
         stats: "3.8M Views",
-        instaUrl: "https://www.instagram.com/shivnetra_optical_buldhana_02/",
+        instaUrl: "https://www.instagram.com/maulikrupa_mandapshilai_kendra/",
         description: "Produced high-energy reels and lifestyle product framing that captured Gen-Z aesthetics, crossing millions of organic views."
       },
       {
@@ -153,23 +153,24 @@ function OurWorksSection({ project }) {
                     : 'bg-white/5 border-white/10 hover:-translate-y-2 hover:border-pink-500/50 hover:shadow-2xl hover:shadow-pink-500/10'
                 } p-4 sm:p-6`}
               >
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem]">
+                {/* Image container using object-contain with padding to ensure logos/contents are never cut */}
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-slate-950 flex items-center justify-center p-2">
                   <img
                     src={work.image}
                     alt={work.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition duration-500 pointer-events-none" />
                   
-                  <span className="absolute top-4 left-4 rounded-full bg-pink-600 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white shadow-md">
+                  <span className="absolute top-4 left-4 rounded-full bg-pink-600 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white shadow-md z-10">
                     {work.tag}
                   </span>
 
-                  <span className="absolute top-4 right-4 rounded-full bg-white/20 backdrop-blur-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white border border-white/30">
+                  <span className="absolute top-4 right-4 rounded-full bg-white/20 backdrop-blur-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white border border-white/30 z-10">
                     {work.stats}
                   </span>
 
-                  <span className="absolute bottom-4 right-4 grid size-12 place-items-center rounded-full bg-white text-slate-900 shadow-xl opacity-90 transition-all duration-300 group-hover:scale-110">
+                  <span className="absolute bottom-4 right-4 grid size-12 place-items-center rounded-full bg-white text-slate-900 shadow-xl opacity-90 transition-all duration-300 group-hover:scale-110 z-10">
                     <FiArrowUpRight className={`text-xl transition-transform duration-300 ${isExpanded ? 'rotate-45' : ''}`} />
                   </span>
                 </div>
@@ -187,7 +188,6 @@ function OurWorksSection({ project }) {
                     {work.subtitle}
                   </p>
 
-                  {/* Expandable In-Card Content */}
                   {isExpanded && (
                     <div className="mt-6 pt-6 border-t border-white/10 animate-fadeIn" onClick={(e) => e.stopPropagation()}>
                       <p className="text-sm text-slate-200 leading-relaxed font-normal mb-6">
@@ -234,7 +234,7 @@ function Comparison({ project }) {
           <img
             src={project.gallery[0]}
             alt="Before transformation"
-            className="absolute inset-0 h-full w-full object-cover grayscale opacity-75"
+            className="absolute inset-0 h-full w-full object-contain grayscale opacity-75 bg-slate-900 p-2"
           />
 
           <div
@@ -244,7 +244,7 @@ function Comparison({ project }) {
             <img
               src={project.heroImage}
               alt="After transformation"
-              className="h-full w-full min-w-[900px] object-cover"
+              className="h-full w-full min-w-[900px] object-cover bg-slate-950"
             />
           </div>
 
@@ -406,15 +406,15 @@ export function CaseStudyPage() {
           </div>
 
           <div data-case-hero className="relative overflow-hidden rounded-[2.5rem] border border-white/20 shadow-2xl">
-            <div className="relative min-h-[35rem] sm:min-h-[42rem] overflow-hidden rounded-[2.5rem]">
+            <div className="relative min-h-[35rem] sm:min-h-[42rem] overflow-hidden rounded-[2.5rem] bg-slate-950 flex items-center justify-center p-4">
               <img
                 src={project.heroImage}
                 alt={project.name}
                 className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none" />
 
-              <div className="absolute bottom-6 left-6 right-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="absolute bottom-6 left-6 right-6 grid grid-cols-2 gap-3 sm:grid-cols-4 z-10">
                 {project.analytics.map(([value, label]) => (
                   <Metric key={label} value={value} label={label} />
                 ))}
@@ -487,7 +487,7 @@ export function CaseStudyPage() {
         </div>
       </section>
 
-      {/* OUR WORKS SECTION WITH IN-CARD ACCORDIONS & INSTAGRAM LINKS */}
+      {/* OUR WORKS SECTION */}
       <OurWorksSection project={project} />
 
       {/* DASHBOARD ANALYTICS */}
@@ -515,21 +515,28 @@ export function CaseStudyPage() {
         </div>
       </section>
 
-      {/* RELATED PROJECTS WITH INSTAGRAM DIRECT LINKS */}
+      {/* RELATED PROJECTS */}
       <section className="bg-slate-50 px-4 py-24 sm:px-6">
         <div className="mx-auto max-w-[1440px]">
           <SectionIntro eyebrow="Explore More" title="More brands engineered for success." />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {project.related.map((rel, index) => (
+            {project.related.map((rel) => (
               <div key={rel.name} className="group relative aspect-[16/10] overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-lg border border-slate-200">
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-600/30 via-purple-600/20 to-amber-500/30 transition duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                  <h3 className="font-display text-3xl font-black text-white tracking-tight">{rel.name}</h3>
+                {/* Background image added with overlay */}
+                <img
+                  src={rel.image}
+                  alt={rel.name}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent transition duration-700" />
+                
+                <div className="absolute inset-0 flex flex-col items-center justify-end p-6 text-center z-10">
+                  <h3 className="font-display text-2xl font-black text-white tracking-tight">{rel.name}</h3>
                   <a
                     href={rel.instaUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-5 py-2 text-xs font-bold uppercase tracking-wider text-white border border-white/30 transition hover:bg-pink-600 hover:border-pink-600"
+                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-5 py-2 text-xs font-bold uppercase tracking-wider text-white border border-white/35 transition hover:bg-pink-600 hover:border-pink-600"
                   >
                     <FiInstagram /> View Profile
                   </a>

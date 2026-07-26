@@ -3,10 +3,13 @@ import { FiArrowUpRight, FiInstagram, FiX } from 'react-icons/fi'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
 import shree from "../../assets/images/shreeji jewelry.jpg"
+import ashokImage from "../../assets/images/ashokjade.jpg"
 import shiv from "../../assets/images/shivenetra (2).jpg"
 import balaji from "../../assets/images/balaji traders.jpg"
 import vighnaharta from "../../assets/images/vighnaharta.jpg"
+import maulikrupa from "../../assets/images/maulikrupa.jpg"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -23,12 +26,25 @@ const projects = [
     duration: "6 Months",
     result: "+280% Revenue Growth",
     analytics: ["+280%", "120K Reach", "4.9 Rating"],
-    gallery: "Luxury Jewellery Collection",
     instagram: "https://www.instagram.com/shreeji__jewellers_lonar/",
     accent: "from-pink-500/20 via-purple-500/10 to-indigo-500/5",
     borderHover: "group-hover:border-pink-500",
-    badgeBg: "bg-pink-600",
-    textColor: "text-pink-600"
+    badgeBg: "bg-pink-600"
+  },
+  {
+    id: "ashok-jade",
+    client: "Ashok Jade & Sons",
+    image: ashokImage,
+    industry: "Luxury Jewellery",
+    categories: ["Branding", "Social Media", "Content Creation"],
+    services: ["Heritage Curation", "Reels Production", "Visual Identity"],
+    duration: "5 Months",
+    result: "3.5X Engagement Lift",
+    analytics: ["3.5X", "150K Reach", "5.0 Rating"],
+    instagram: "https://www.instagram.com/ashok_jade_and_sons/",
+    accent: "from-amber-500/20 via-rose-500/10 to-purple-500/5",
+    borderHover: "group-hover:border-amber-500",
+    badgeBg: "bg-amber-600"
   },
   {
     id: "shivnetra",
@@ -40,12 +56,25 @@ const projects = [
     duration: "4 Months",
     result: "3.8M Organic Views",
     analytics: ["+180%", "95K Reach", "3.8M Views"],
-    gallery: "Optical Brand Campaign",
     instagram: "https://www.instagram.com/shivnetra_optical_buldhana_02/",
     accent: "from-cyan-500/20 via-blue-500/10 to-purple-500/5",
     borderHover: "group-hover:border-cyan-500",
-    badgeBg: "bg-cyan-600",
-    textColor: "text-cyan-600"
+    badgeBg: "bg-cyan-600"
+  },
+  {
+    id: "maulikrupa",
+    client: "Maulikrupa Mandapshilai Kendra",
+    image: maulikrupa,
+    industry: "Event Styling & Decor",
+    categories: ["Content Creation", "Social Media", "Branding"],
+    services: ["Cinematic Showcases", "Social Management", "Ad Reels"],
+    duration: "4 Months",
+    result: "2M+ Impressions",
+    analytics: ["2M+", "45K Reach", "Top Rated"],
+    instagram: "https://www.instagram.com/maulikrupa_mandapshilai_kendra/",
+    accent: "from-rose-500/20 via-orange-500/10 to-yellow-500/5",
+    borderHover: "group-hover:border-rose-500",
+    badgeBg: "bg-rose-600"
   },
   {
     id: "balaji",
@@ -57,12 +86,10 @@ const projects = [
     duration: "5 Months",
     result: "2.5X Sales Increase",
     analytics: ["+250%", "150 Leads", "2.5X Sales"],
-    gallery: "Business Web Flagship",
     instagram: "https://www.instagram.com/balaji_traders_sultanpur/",
     accent: "from-orange-500/20 via-amber-500/10 to-yellow-500/5",
     borderHover: "group-hover:border-orange-500",
-    badgeBg: "bg-orange-600",
-    textColor: "text-orange-600"
+    badgeBg: "bg-orange-600"
   },
   {
     id: "vighnaharta",
@@ -74,18 +101,16 @@ const projects = [
     duration: "3 Months",
     result: "1M+ Total Reach",
     analytics: ["+320%", "1M Reach", "8K Followers"],
-    gallery: "Retail Growth Campaign",
     instagram: "https://www.instagram.com/vighnaharta_stationary/",
     accent: "from-purple-500/20 via-pink-500/10 to-rose-500/5",
     borderHover: "group-hover:border-purple-500",
-    badgeBg: "bg-purple-600",
-    textColor: "text-purple-600"
+    badgeBg: "bg-purple-600"
   }
 ]
 
 function CoverArt({ project }) {
   return (
-    <div className="relative overflow-hidden h-[380px] w-full">
+    <div className="relative overflow-hidden h-[300px] sm:h-[340px] w-full bg-slate-100">
       <img
         src={project.image}
         alt={project.client}
@@ -98,52 +123,54 @@ function CoverArt({ project }) {
 
 function PortfolioCard({ project, onOpen }) {
   return (
-    <article data-portfolio-card className="group mb-6 break-inside-avoid">
+    <article data-portfolio-card className="group h-full opacity-100">
       <button 
         type="button" 
         onClick={() => onOpen(project)} 
-        className="block w-full text-left"
+        className="block h-full w-full text-left"
       >
-        <div className={`relative overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-gradient-to-br ${project.accent} p-3 shadow-xl shadow-slate-900/5 transition-all duration-500 group-hover:-translate-y-2 ${project.borderHover} hover:shadow-2xl`}>
-          
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/60">
-            <CoverArt project={project} />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
-            
-            <span className="absolute left-4 top-4 rounded-full border border-white/40 bg-white/20 px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white backdrop-blur-md">
-              {project.industry}
-            </span>
+        <div className={`relative flex flex-col justify-between h-full overflow-hidden rounded-[2.5rem] border border-slate-200/80 bg-gradient-to-br ${project.accent} p-3 shadow-xl shadow-slate-900/5 transition-all duration-500 group-hover:-translate-y-2 ${project.borderHover} hover:shadow-2xl`}>
+          <div>
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/60">
+              <CoverArt project={project} />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+              
+              <span className="absolute left-4 top-4 rounded-full border border-white/40 bg-white/20 px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white backdrop-blur-md">
+                {project.industry}
+              </span>
 
-            <span className={`absolute top-4 right-4 ${project.badgeBg} text-white font-extrabold text-[10px] uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-lg opacity-0 transition duration-500 group-hover:opacity-100`}>
-              {project.result}
-            </span>
-
-            <span className="absolute bottom-4 right-4 grid size-12 translate-y-3 place-items-center rounded-full bg-white text-slate-900 shadow-xl opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-              <FiArrowUpRight className="text-xl" />
-            </span>
-          </div>
-
-          <div className="p-6">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="font-display text-2xl font-bold tracking-tight text-slate-900 transition duration-300 group-hover:text-pink-600">
-                  {project.client}
-                </h3>
-                <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  {project.duration} Partnership
-                </p>
-              </div>
-              <span className="rounded-full bg-white px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-700 shadow-sm border border-slate-200">
+              <span className={`absolute top-4 right-4 ${project.badgeBg} text-white font-extrabold text-[10px] uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-lg opacity-0 transition duration-500 group-hover:opacity-100`}>
                 {project.result}
               </span>
+
+              <span className="absolute bottom-4 right-4 grid size-12 translate-y-3 place-items-center rounded-full bg-white text-slate-900 shadow-xl opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <FiArrowUpRight className="text-xl" />
+              </span>
+            </div>
+          </div>
+
+          <div className="p-6 flex flex-col flex-grow justify-between">
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-display text-2xl font-bold tracking-tight text-slate-900 transition duration-300 group-hover:text-pink-600">
+                    {project.client}
+                  </h3>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    {project.duration} Partnership
+                  </p>
+                </div>
+                <span className="rounded-full bg-white px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-700 shadow-sm border border-slate-200">
+                  {project.result}
+                </span>
+              </div>
             </div>
             
             <div className="mt-6 pt-4 border-t border-slate-200/60 flex items-center justify-between text-xs font-bold text-slate-600">
-              <span>{project.services.join(' · ')}</span>
-              <span className="text-pink-600 group-hover:translate-x-1 transition">Explore →</span>
+              <span className="truncate pr-2">{project.services.join(' · ')}</span>
+              <span className="text-pink-600 shrink-0 group-hover:translate-x-1 transition">Explore →</span>
             </div>
           </div>
-
         </div>
       </button>
     </article>
@@ -158,7 +185,6 @@ function ProjectDialog({ project, onClose }) {
       className="fixed inset-0 z-[60] grid place-items-center bg-slate-950/60 p-4 backdrop-blur-md sm:p-6"
       role="dialog"
       aria-modal="true"
-      aria-label={`${project.client} project details`}
     >
       <div
         data-project-panel
@@ -173,7 +199,6 @@ function ProjectDialog({ project, onClose }) {
         </button>
 
         <div className="grid gap-8 lg:grid-cols-2 items-center">
-          
           <div className="overflow-hidden rounded-[2rem] border border-slate-200 shadow-md">
             <CoverArt project={project} />
           </div>
@@ -218,9 +243,7 @@ function ProjectDialog({ project, onClose }) {
                 </a>
               )}
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
@@ -236,54 +259,59 @@ export function PortfolioPage() {
     ? projects 
     : projects.filter((project) => project.categories.includes(activeFilter))
 
-  useGSAP(() => { 
-    gsap.from('[data-work-reveal]', { autoAlpha: 0, y: 25, duration: 0.8, stagger: 0.12, ease: 'power3.out' }) 
-    gsap.from('[data-portfolio-card]', { autoAlpha: 0, y: 35, duration: 0.7, stagger: 0.07, ease: 'power3.out', scrollTrigger: { trigger: '[data-portfolio-grid]', start: 'top 80%' } }) 
+  useGSAP(() => {
+    // 1. Refresh ScrollTrigger after dynamic renders
+    ScrollTrigger.refresh()
+
+    // 2. Animate Grid Items with safe batch trigger
+    ScrollTrigger.batch('[data-portfolio-card]', {
+      onEnter: (batch) => {
+        gsap.fromTo(
+          batch,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power3.out',
+            clearProps: 'all' // Removes inline opacity/transform so cards remain visible
+          }
+        )
+      },
+      once: true
+    })
+
   }, { scope, dependencies: [activeFilter] })
 
-  useGSAP(() => { 
-    if (selectedProject) {
-      gsap.fromTo('[data-project-panel]', { y: 40, autoAlpha: 0, scale: 0.98 }, { y: 0, autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power3.out' }) 
-    }
-  }, { dependencies: [selectedProject] })
-
   return (
-    <main ref={scope} className="overflow-hidden bg-white pb-24 pt-36 sm:pt-40 relative selection:bg-pink-500 selection:text-white">
+    <main ref={scope} className="bg-white pb-24 pt-36 sm:pt-40 relative selection:bg-pink-500 selection:text-white min-h-screen">
       
-      {/* Ambient background glows */}
+      {/* Background Glows */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-br from-pink-500/10 via-purple-500/5 to-transparent blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 left-10 w-[500px] h-[500px] bg-gradient-to-tr from-orange-500/10 via-pink-500/5 to-transparent blur-[120px] pointer-events-none" />
 
-      {/* Heading Section */}
+      {/* Header */}
       <section className="px-4 sm:px-6 relative z-10">
         <div className="mx-auto max-w-[1440px]">
-          <span
-            data-work-reveal
-            className="inline-block mb-3 px-4 py-1.5 rounded-full text-[0.65rem] font-extrabold uppercase tracking-[0.2em] bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-orange-500/20 text-pink-700 border border-pink-500/30 shadow-sm"
-          >
+          <span className="inline-block mb-3 px-4 py-1.5 rounded-full text-[0.65rem] font-extrabold uppercase tracking-[0.2em] bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-orange-500/20 text-pink-700 border border-pink-500/30 shadow-sm">
             Selected Projects
           </span>
 
           <div className="mt-4 flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
-            <h1
-              data-work-reveal
-              className="font-display text-[clamp(3.5rem,8vw,8rem)] font-black leading-[0.95] tracking-tight text-slate-900"
-            >
+            <h1 className="font-display text-[clamp(3.5rem,8vw,8rem)] font-black leading-[0.95] tracking-tight text-slate-900">
               OUR <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">WORK</span>
             </h1>
 
-            <p
-              data-work-reveal
-              className="max-w-md text-sm sm:text-base leading-relaxed text-slate-600"
-            >
+            <p className="max-w-md text-sm sm:text-base leading-relaxed text-slate-600">
               Every project tells a distinct brand story. Explore our high-impact campaigns engineered for cultural relevance and explosive revenue growth.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Featured Hero Project Card */}
-      <section data-work-reveal className="px-4 py-16 sm:px-6 relative z-10">
+      {/* Hero Banner */}
+      <section className="px-4 py-16 sm:px-6 relative z-10">
         <div className="mx-auto max-w-[1440px]">
           <a
             href={projects[0].instagram}
@@ -335,11 +363,12 @@ export function PortfolioPage() {
         </div>
       </section>
 
-      {/* Filter Buttons & Portfolio Grid */}
+      {/* Filter Options & Cards Section */}
       <section className="px-4 sm:px-6 relative z-10">
         <div className="mx-auto max-w-[1440px]">
           
-          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none">
+          {/* Filters */}
+          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none border-b border-slate-100 mb-12">
             {filters.map((filter) => (
               <button
                 key={filter}
@@ -355,10 +384,8 @@ export function PortfolioPage() {
             ))}
           </div>
 
-          <div
-            data-portfolio-grid
-            className="mt-12 columns-1 gap-6 md:columns-2 xl:columns-3"
-          >
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
             {visibleProjects.map((project) => (
               <PortfolioCard
                 key={project.id}
