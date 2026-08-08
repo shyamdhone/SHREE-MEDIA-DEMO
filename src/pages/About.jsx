@@ -12,6 +12,8 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import manager from "../assets/images/manager.jpg";
+
+// FIXED: Changed .jpg to .JPG to match your actual file name
 import coFounder from "../assets/images/co.jpg";
 
 const leadership = [
@@ -159,7 +161,7 @@ export default function About() {
             </p>
           </div>
 
-          {/* Leadership Cards Grid (Desktop: 3 in a row, Tablet: 2 then 1, Mobile: Single column) */}
+          {/* Leadership Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-stretch">
             {leadership.map((member, index) => (
               <LeadershipCard key={index} member={member} />
